@@ -1,7 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { Link, useLocation } from 'react-router-dom';
 
 const Menu = ({ items = [], className = '' }) => {
+  const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [openSubmenus, setOpenSubmenus] = useState(new Set());
   const timeoutRef = useRef(null);
@@ -55,8 +57,8 @@ const Menu = ({ items = [], className = '' }) => {
         onMouseEnter={!isSubmenu && hasSubmenu ? () => handleSubmenuEnter(index) : undefined}
         onMouseLeave={!isSubmenu && hasSubmenu ? handleSubmenuLeave : undefined}
       >
-        <a
-          href={item.href || '#'}
+        <Link
+          to={item.href || '#'}
           onClick={(e) => {
             if (hasSubmenu) {
               e.preventDefault();
@@ -69,6 +71,7 @@ const Menu = ({ items = [], className = '' }) => {
             block px-4 py-2 text-white hover:bg-white/10 rounded-xl transition-all duration-200
             ${isSubmenu ? 'w-full text-left' : ''}
             ${hasSubmenu ? 'flex items-center justify-between' : ''}
+            ${!isSubmenu && location.pathname === item.href ? 'bg-white/20' : ''}
           `}
         >
           <span className="font-medium">{item.label}</span>
@@ -82,7 +85,7 @@ const Menu = ({ items = [], className = '' }) => {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
             </svg>
           )}
-        </a>
+        </Link>
 
         {hasSubmenu && (
           <ul
@@ -95,18 +98,19 @@ const Menu = ({ items = [], className = '' }) => {
           >
             {item.submenu.map((subItem, subIndex) => (
               <li key={`${index}-${subIndex}`}>
-                <a
-                  href={subItem.href || '#'}
+                <Link
+                  to={subItem.href || '#'}
                   className={`
                     block px-4 py-2 transition-colors duration-200
                     ${isSubmenu 
                       ? 'text-white/90 hover:bg-white/10 hover:text-white rounded-xl' 
                       : 'text-gray-800 hover:bg-indigo-50 hover:text-indigo-600'
                     }
+                    ${location.pathname === subItem.href ? (isSubmenu ? 'bg-white/20 text-white' : 'bg-indigo-50 text-indigo-600') : ''}
                   `}
                 >
                   {subItem.label}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>
