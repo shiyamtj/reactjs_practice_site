@@ -120,20 +120,20 @@ const FormsExamples = () => {
           <h1 className="text-4xl lg:text-5xl font-bold mb-8 text-gradient">
             Forms Examples
           </h1>
-          <p className="text-lg text-gray-600 mb-12 max-w-3xl">
+          <p className="text-lg text-slate-600 dark:text-slate-300 mb-12 max-w-3xl">
             Comprehensive form examples showcasing various input types, validation patterns, and user interactions in React.
           </p>
 
           {/* Main Registration Form */}
           <section className="mb-16">
             <div className="card p-8">
-              <h2 className="text-2xl font-bold mb-8 text-gray-900">User Registration Form</h2>
+              <h2 className="text-2xl font-bold mb-8 text-slate-900 dark:text-slate-50">User Registration Form</h2>
               
               <form onSubmit={handleSubmit} className="space-y-6">
                 {/* Name Fields */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-2">
+                    <label htmlFor="firstName" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                       First Name *
                     </label>
                     <input
@@ -143,7 +143,7 @@ const FormsExamples = () => {
                       value={formData.firstName}
                       onChange={handleChange}
                       className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors duration-200 ${
-                        errors.firstName ? 'border-red-500' : 'border-gray-300'
+                        errors.firstName ? 'border-red-500' : 'border-gray-300 dark:border-slate-600'
                       }`}
                       placeholder="John"
                     />
@@ -153,7 +153,7 @@ const FormsExamples = () => {
                   </div>
                   
                   <div>
-                    <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 mb-2">
+                    <label htmlFor="lastName" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                       Last Name *
                     </label>
                     <input
@@ -163,7 +163,7 @@ const FormsExamples = () => {
                       value={formData.lastName}
                       onChange={handleChange}
                       className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors duration-200 ${
-                        errors.lastName ? 'border-red-500' : 'border-gray-300'
+                        errors.lastName ? 'border-red-500' : 'border-gray-300 dark:border-slate-600'
                       }`}
                       placeholder="Doe"
                     />
@@ -176,7 +176,7 @@ const FormsExamples = () => {
                 {/* Email and Phone */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+                    <label htmlFor="email" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                       Email Address *
                     </label>
                     <input
@@ -186,7 +186,7 @@ const FormsExamples = () => {
                       value={formData.email}
                       onChange={handleChange}
                       className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors duration-200 ${
-                        errors.email ? 'border-red-500' : 'border-gray-300'
+                        errors.email ? 'border-red-500' : 'border-gray-300 dark:border-slate-600'
                       }`}
                       placeholder="john.doe@example.com"
                     />
@@ -196,7 +196,7 @@ const FormsExamples = () => {
                   </div>
                   
                   <div>
-                    <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
+                    <label htmlFor="phone" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                       Phone Number
                     </label>
                     <input
@@ -214,7 +214,7 @@ const FormsExamples = () => {
                 {/* Password Fields */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
+                    <label htmlFor="password" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                       Password *
                     </label>
                     <input
@@ -224,7 +224,7 @@ const FormsExamples = () => {
                       value={formData.password}
                       onChange={handleChange}
                       className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors duration-200 ${
-                        errors.password ? 'border-red-500' : 'border-gray-300'
+                        errors.password ? 'border-red-500' : 'border-gray-300 dark:border-slate-600'
                       }`}
                       placeholder="••••••••"
                     />
@@ -234,7 +234,7 @@ const FormsExamples = () => {
                   </div>
                   
                   <div>
-                    <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-2">
+                    <label htmlFor="confirmPassword" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                       Confirm Password *
                     </label>
                     <input
@@ -244,7 +244,7 @@ const FormsExamples = () => {
                       value={formData.confirmPassword}
                       onChange={handleChange}
                       className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors duration-200 ${
-                        errors.confirmPassword ? 'border-red-500' : 'border-gray-300'
+                        errors.confirmPassword ? 'border-red-500' : 'border-gray-300 dark:border-slate-600'
                       }`}
                       placeholder="••••••••"
                     />
@@ -256,7 +256,7 @@ const FormsExamples = () => {
 
                 {/* Bio */}
                 <div>
-                  <label htmlFor="bio" className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="bio" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                     Bio
                   </label>
                   <textarea
@@ -265,7 +265,7 @@ const FormsExamples = () => {
                     value={formData.bio}
                     onChange={handleChange}
                     rows={4}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors duration-200 resize-none"
+                    className="w-full px-4 py-3 border border-gray-300 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors duration-200 resize-none"
                     placeholder="Tell us about yourself..."
                   />
                 </div>
@@ -273,7 +273,7 @@ const FormsExamples = () => {
                 {/* Gender and Country */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                       Gender
                     </label>
                     <div className="space-y-2">
@@ -287,14 +287,14 @@ const FormsExamples = () => {
                             onChange={handleChange}
                             className="mr-2 text-indigo-600 focus:ring-indigo-500"
                           />
-                          <span className="text-gray-700">{gender}</span>
+                          <span className="text-slate-700 dark:text-slate-300">{gender}</span>
                         </label>
                       ))}
                     </div>
                   </div>
                   
                   <div>
-                    <label htmlFor="country" className="block text-sm font-medium text-gray-700 mb-2">
+                    <label htmlFor="country" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                       Country
                     </label>
                     <select
@@ -316,7 +316,7 @@ const FormsExamples = () => {
 
                 {/* Hobbies */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                     Hobbies
                   </label>
                   <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
@@ -330,7 +330,7 @@ const FormsExamples = () => {
                           onChange={handleChange}
                           className="mr-2 text-indigo-600 focus:ring-indigo-500"
                         />
-                        <span className="text-gray-700 text-sm">{hobby}</span>
+                        <span className="text-slate-700 dark:text-slate-300 text-sm">{hobby}</span>
                       </label>
                     ))}
                   </div>
@@ -338,7 +338,7 @@ const FormsExamples = () => {
 
                 {/* Rating */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                     Rating: {formData.rating} stars
                   </label>
                   <div className="flex space-x-2">
@@ -348,7 +348,7 @@ const FormsExamples = () => {
                         type="button"
                         onClick={() => setFormData(prev => ({ ...prev, rating: star }))}
                         className={`text-2xl transition-colors duration-200 ${
-                          star <= formData.rating ? 'text-yellow-400' : 'text-gray-300'
+                          star <= formData.rating ? 'text-yellow-400' : 'text-gray-300 dark:text-gray-600'
                         } hover:text-yellow-400`}
                       >
                         ★
@@ -384,9 +384,9 @@ const FormsExamples = () => {
                         name="color"
                         value={formData.color}
                         onChange={handleChange}
-                        className="h-12 w-20 border border-gray-300 rounded-xl cursor-pointer"
+                        className="h-12 w-20 border border-gray-300 dark:border-slate-600 rounded-xl cursor-pointer"
                       />
-                      <span className="text-gray-600">{formData.color}</span>
+                      <span className="text-slate-600 dark:text-slate-400">{formData.color}</span>
                     </div>
                   </div>
                 </div>
@@ -401,7 +401,7 @@ const FormsExamples = () => {
                       onChange={handleChange}
                       className="mr-3 text-indigo-600 focus:ring-indigo-500"
                     />
-                    <span className="text-gray-700">
+                    <span className="text-slate-700 dark:text-slate-300">
                       Subscribe to our newsletter for updates and tips
                     </span>
                   </label>
@@ -416,7 +416,7 @@ const FormsExamples = () => {
                         errors.terms ? 'border-red-500' : ''
                       }`}
                     />
-                    <span className="text-gray-700">
+                    <span className="text-slate-700 dark:text-slate-300">
                       I agree to the Terms of Service and Privacy Policy *
                     </span>
                   </label>
@@ -445,8 +445,8 @@ const FormsExamples = () => {
 
                 {/* Success Message */}
                 {submitMessage && (
-                  <div className="bg-green-50 border-l-4 border-green-500 p-4 rounded-r-xl">
-                    <p className="text-green-800 font-medium">{submitMessage}</p>
+                  <div className="bg-green-50 dark:bg-emerald-900/20 border-l-4 border-green-500 dark:border-emerald-500 p-4 rounded-r-xl">
+                    <p className="text-green-800 dark:text-emerald-200 font-medium">{submitMessage}</p>
                   </div>
                 )}
               </form>
@@ -455,47 +455,47 @@ const FormsExamples = () => {
 
           {/* Form States */}
           <section className="mb-16">
-            <h2 className="text-3xl font-bold mb-8 text-gray-900">Form States & Patterns</h2>
+            <h2 className="text-3xl font-bold mb-8 text-slate-900 dark:text-slate-50">Form States & Patterns</h2>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {/* Loading State */}
               <div className="card p-6">
-                <h3 className="text-xl font-semibold mb-4 text-gray-900">Loading State</h3>
+                <h3 className="text-xl font-semibold mb-4 text-slate-900 dark:text-slate-50">Loading State</h3>
                 <div className="space-y-4">
                   <div className="flex items-center space-x-3">
                     <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-indigo-600"></div>
-                    <span className="text-gray-600">Processing your request...</span>
+                    <span className="text-slate-600 dark:text-slate-300">Processing your request...</span>
                   </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2">
-                    <div className="bg-indigo-600 h-2 rounded-full animate-pulse" style={{ width: '60%' }}></div>
+                  <div className="w-full bg-gray-200 dark:bg-slate-700 rounded-full h-2">
+                    <div className="bg-indigo-600 h-2 rounded-full animate-pulse w-3/5"></div>
                   </div>
                 </div>
               </div>
 
               {/* Success State */}
               <div className="card p-6">
-                <h3 className="text-xl font-semibold mb-4 text-gray-900">Success State</h3>
-                <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                <h3 className="text-xl font-semibold mb-4 text-slate-900 dark:text-slate-50">Success State</h3>
+                <div className="bg-green-50 dark:bg-emerald-900/20 border border-green-200 dark:border-emerald-700 rounded-lg p-4">
                   <div className="flex items-center space-x-3">
                     <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
-                    <span className="text-green-800 font-medium">Form submitted successfully!</span>
+                    <span className="text-green-800 dark:text-emerald-200 font-medium">Form submitted successfully!</span>
                   </div>
                 </div>
               </div>
 
               {/* Error State */}
               <div className="card p-6">
-                <h3 className="text-xl font-semibold mb-4 text-gray-900">Error State</h3>
-                <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+                <h3 className="text-xl font-semibold mb-4 text-slate-900 dark:text-slate-50">Error State</h3>
+                <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-700 rounded-lg p-4">
                   <div className="flex items-center space-x-3">
                     <svg className="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                     <div>
-                      <span className="text-red-800 font-medium">Submission failed</span>
-                      <p className="text-red-600 text-sm mt-1">Please check your input and try again.</p>
+                      <span className="text-red-800 dark:text-red-200 font-medium">Submission failed</span>
+                      <p className="text-red-600 dark:text-red-300 text-sm mt-1">Please check your input and try again.</p>
                     </div>
                   </div>
                 </div>
@@ -503,7 +503,7 @@ const FormsExamples = () => {
 
               {/* Disabled State */}
               <div className="card p-6">
-                <h3 className="text-xl font-semibold mb-4 text-gray-900">Disabled State</h3>
+                <h3 className="text-xl font-semibold mb-4 text-slate-900 dark:text-slate-50">Disabled State</h3>
                 <div className="space-y-3">
                   <input
                     type="text"

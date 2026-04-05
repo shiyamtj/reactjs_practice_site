@@ -36,7 +36,7 @@ const ConfirmModal = ({
       />
       
       {/* Modal */}
-      <div className="relative bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 rounded-2xl p-8 max-w-md w-full mx-4 border border-white/20 shadow-2xl">
+      <div className="relative bg-white dark:bg-slate-800 rounded-2xl p-8 max-w-md w-full mx-4 border border-slate-200 dark:border-slate-700 shadow-2xl">
         {/* Icon */}
         <div className={`w-16 h-16 ${currentStyle.borderColor} rounded-full flex items-center justify-center mx-auto mb-6`}>
           <svg className={`w-8 h-8 ${currentStyle.iconColor}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -46,15 +46,15 @@ const ConfirmModal = ({
 
         {/* Content */}
         <div className="text-center mb-8">
-          <h2 className="text-2xl font-bold text-white mb-3">{title}</h2>
-          <p className="text-gray-300 leading-relaxed">{message}</p>
+          <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50 mb-3">{title}</h2>
+          <p className="text-slate-600 dark:text-slate-300 leading-relaxed">{message}</p>
         </div>
 
         {/* Actions */}
         <div className="flex gap-3">
           <button
             onClick={onClose}
-            className="flex-1 px-6 py-3 bg-white/10 hover:bg-white/20 rounded-xl transition-all duration-200 text-white font-medium"
+            className="flex-1 px-6 py-3 bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 rounded-xl transition-all duration-200 text-slate-900 dark:text-slate-50 font-medium"
           >
             {cancelText}
           </button>

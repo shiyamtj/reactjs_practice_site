@@ -2,7 +2,7 @@
 
 @layer base {
   * {
-    @apply border-gray-200;
+    @apply border-gray-200 dark:border-slate-700;
   }
   
   html {
@@ -10,7 +10,7 @@
   }
   
   body {
-    @apply bg-white text-gray-900 font-sans antialiased;
+    @apply bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-50 font-sans antialiased;
   }
   
   /* Custom scrollbar styling */
@@ -19,15 +19,15 @@
   }
   
   ::-webkit-scrollbar-track {
-    @apply bg-gray-100;
+    @apply bg-gray-100 dark:bg-slate-800;
   }
   
   ::-webkit-scrollbar-thumb {
-    @apply bg-gray-300 rounded-full;
+    @apply bg-gray-300 dark:bg-slate-600 rounded-full;
   }
   
   ::-webkit-scrollbar-thumb:hover {
-    @apply bg-gray-400;
+    @apply bg-gray-400 dark:bg-slate-500;
   }
 }
 
@@ -38,7 +38,7 @@
   }
   
   .btn-secondary {
-    @apply bg-white text-gray-900 px-6 py-3 rounded-lg font-medium transition-all duration-300 shadow-sm border border-gray-200 hover:shadow-md hover:bg-gray-50;
+    @apply bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-50 px-6 py-3 rounded-lg font-medium transition-all duration-300 shadow-sm border border-gray-200 dark:border-slate-700 hover:shadow-md hover:bg-gray-50 dark:hover:bg-slate-700;
   }
   
   .btn-outline {
@@ -47,7 +47,7 @@
   
   /* Card variants */
   .card {
-    @apply bg-white rounded-xl shadow-sm border border-gray-200 transition-all duration-300;
+    @apply bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-gray-200 dark:border-slate-700 transition-all duration-300;
   }
   
   .card-hover {
@@ -56,7 +56,7 @@
   
   /* Input variants */
   .input {
-    @apply bg-white border border-gray-300 rounded-lg px-4 py-2 text-gray-900 placeholder-gray-500 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent;
+    @apply bg-white dark:bg-slate-800 border border-gray-300 dark:border-slate-600 rounded-lg px-4 py-2 text-slate-900 dark:text-slate-50 placeholder-gray-500 dark:placeholder-slate-400 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent;
   }
   
   /* Text utilities */

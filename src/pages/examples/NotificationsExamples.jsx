@@ -39,16 +39,16 @@ const NotificationsExamples = () => {
           <h1 className="text-4xl lg:text-5xl font-bold mb-8 text-gradient">
             Notifications Examples
           </h1>
-          <p className="text-lg text-gray-600 mb-12 max-w-3xl">
+          <p className="text-lg text-slate-600 dark:text-slate-300 mb-12 max-w-3xl">
             Learn how to implement various notification patterns in React using state management and conditional rendering.
           </p>
 
           {/* Toast Notifications */}
           <section className="mb-16">
-            <h2 className="text-3xl font-bold mb-8 text-gray-900">Toast Notifications</h2>
+            <h2 className="text-3xl font-bold mb-8 text-slate-900 dark:text-slate-50">Toast Notifications</h2>
             <div className="card p-8">
-              <h3 className="text-xl font-semibold mb-4 text-gray-800">Interactive Example</h3>
-              <p className="text-gray-600 mb-6">
+              <h3 className="text-xl font-semibold mb-4 text-slate-800 dark:text-slate-200">Interactive Example</h3>
+              <p className="text-slate-600 dark:text-slate-300 mb-6">
                 Click the buttons below to see different types of toast notifications:
               </p>
               
@@ -100,9 +100,9 @@ const NotificationsExamples = () => {
 
           {/* Alert Notifications */}
           <section className="mb-16">
-            <h2 className="text-3xl font-bold mb-8 text-gray-900">Alert Notifications</h2>
+            <h2 className="text-3xl font-bold mb-8 text-slate-900 dark:text-slate-50">Alert Notifications</h2>
             <div className="space-y-6">
-              <div className="card border-l-4 border-green-500 bg-green-50 p-6">
+              <div className="card border-l-4 border-green-500 bg-green-50 dark:bg-emerald-900/20 dark:border-emerald-500 p-6">
                 <div className="flex items-start">
                   <div className="flex-shrink-0">
                     <svg className="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -170,10 +170,10 @@ const NotificationsExamples = () => {
 
           {/* Notification Stack */}
           <section className="mb-16">
-            <h2 className="text-3xl font-bold mb-8 text-gray-900">Notification Stack</h2>
+            <h2 className="text-3xl font-bold mb-8 text-slate-900 dark:text-slate-50">Notification Stack</h2>
             <div className="card p-8">
-              <h3 className="text-xl font-semibold mb-4 text-gray-800">Dynamic Notification Queue</h3>
-              <p className="text-gray-600 mb-6">
+              <h3 className="text-xl font-semibold mb-4 text-slate-800 dark:text-slate-200">Dynamic Notification Queue</h3>
+              <p className="text-slate-600 dark:text-slate-300 mb-6">
                 Add multiple notifications to see them stack and auto-dismiss:
               </p>
               
@@ -230,11 +230,11 @@ const NotificationsExamples = () => {
 
           {/* Code Examples */}
           <section>
-            <h2 className="text-3xl font-bold mb-8 text-gray-900">Implementation Examples</h2>
+            <h2 className="text-3xl font-bold mb-8 text-slate-900 dark:text-slate-50">Implementation Examples</h2>
             <div className="space-y-8">
               <div className="card p-6">
-                <h3 className="text-xl font-semibold mb-4 text-gray-800">Basic Toast Component</h3>
-                <pre className="bg-gray-900 text-gray-100 p-4 rounded-xl overflow-x-auto">
+                <h3 className="text-xl font-semibold mb-4 text-slate-800 dark:text-slate-200">Basic Toast Component</h3>
+                <pre className="bg-gray-900 dark:bg-slate-900 text-gray-100 dark:text-slate-300 p-4 rounded-xl overflow-x-auto">
                   <code>{`const Toast = ({ message, type, onClose }) => {
   useEffect(() => {
     const timer = setTimeout(onClose, 3000);
@@ -253,8 +253,8 @@ const NotificationsExamples = () => {
               </div>
 
               <div className="card p-6">
-                <h3 className="text-xl font-semibold mb-4 text-gray-800">Notification Hook</h3>
-                <pre className="bg-gray-900 text-gray-100 p-4 rounded-xl overflow-x-auto">
+                <h3 className="text-xl font-semibold mb-4 text-slate-800 dark:text-slate-200">Notification Hook</h3>
+                <pre className="bg-gray-900 dark:bg-slate-900 text-gray-100 dark:text-slate-300 p-4 rounded-xl overflow-x-auto">
                   <code>{`const useNotifications = () => {
   const [notifications, setNotifications] = useState([]);
 

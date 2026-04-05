@@ -4,112 +4,48 @@ import { useToast } from '../contexts/ToastContext';
 const ToastContainer = () => {
   const { toasts, hideToast } = useToast();
 
-  const getToastStyles = (type) => {
-    const baseStyles = {
-      display: 'flex',
-      alignItems: 'center',
-      gap: '12px',
-      padding: '16px 20px',
-      borderRadius: '12px',
-      boxShadow: '0 10px 25px rgba(0,0,0,0.1)',
-      minWidth: '320px',
-      maxWidth: '400px',
-      fontSize: '14px',
-      fontWeight: '500',
-      border: '1px solid rgba(255,255,255,0.2)',
-      backdropFilter: 'blur(10px)',
-      transition: 'all 0.3s ease-in-out',
-      transform: 'translateX(0)',
-      opacity: 1,
+  const getToastClasses = (type) => {
+    const baseClasses = 'flex items-center gap-3 p-4 rounded-xl shadow-lg min-w-[320px] max-w-[400px] text-sm font-medium border backdrop-blur-sm transition-all duration-300 cursor-pointer';
+    
+    const typeClasses = {
+      success: 'bg-gradient-to-r from-emerald-500 to-emerald-600 text-white border-emerald-400/20',
+      error: 'bg-gradient-to-r from-red-500 to-red-600 text-white border-red-400/20',
+      warning: 'bg-gradient-to-r from-amber-500 to-amber-600 text-white border-amber-400/20',
+      info: 'bg-gradient-to-r from-blue-500 to-blue-600 text-white border-blue-400/20',
     };
 
-    const typeStyles = {
-      success: {
-        background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
-        color: 'white',
-      },
-      error: {
-        background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
-        color: 'white',
-      },
-      warning: {
-        background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
-        color: 'white',
-      },
-      info: {
-        background: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
-        color: 'white',
-      },
-    };
-
-    return { ...baseStyles, ...typeStyles[type] };
+    return `${baseClasses} ${typeClasses[type]}`;
   };
 
   const getIcon = (type) => {
-    const iconStyles = {
-      width: '20px',
-      height: '20px',
-      flexShrink: 0,
-    };
+    const iconClasses = 'w-5 h-5 flex-shrink-0';
 
     switch (type) {
       case 'success':
         return (
-          <svg style={iconStyles} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className={iconClasses} fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
           </svg>
         );
       case 'error':
         return (
-          <svg style={iconStyles} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className={iconClasses} fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
           </svg>
         );
       case 'warning':
         return (
-          <svg style={iconStyles} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className={iconClasses} fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
           </svg>
         );
       default:
         return (
-          <svg style={iconStyles} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className={iconClasses} fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
         );
     }
-  };
-
-  const containerStyles = {
-    position: 'fixed',
-    top: '20px',
-    right: '20px',
-    zIndex: 9999,
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '12px',
-    pointerEvents: 'none',
-  };
-
-  const toastStyles = (toast, index) => ({
-    ...getToastStyles(toast.type),
-    pointerEvents: 'auto',
-    cursor: 'pointer',
-    opacity: toast.isVisible ? 1 : 0,
-    transform: toast.isVisible ? 'translateX(0)' : 'translateX(100%)',
-    marginBottom: index === 0 ? 0 : '-8px', // Stack effect
-  });
-
-  const closeButtonStyles = {
-    background: 'none',
-    border: 'none',
-    color: 'white',
-    fontSize: '18px',
-    cursor: 'pointer',
-    padding: '4px',
-    marginLeft: 'auto',
-    opacity: 0.8,
-    transition: 'opacity 0.2s',
   };
 
   if (toasts.length === 0) {
@@ -117,25 +53,29 @@ const ToastContainer = () => {
   }
 
   return (
-    <div style={containerStyles}>
+    <div className="fixed top-5 right-5 z-[9999] flex flex-col gap-3 pointer-events-none">
       {toasts.map((toast, index) => (
         <div
           key={toast.id}
-          style={toastStyles(toast, index)}
+          className={`
+            ${getToastClasses(toast.type)}
+            pointer-events-auto
+            transform transition-all duration-300
+            ${toast.isVisible ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0'}
+            ${index > 0 ? '-mt-2' : ''}
+          `}
           onClick={() => hideToast(toast.id)}
         >
           {getIcon(toast.type)}
-          <span style={{ flex: 1, lineHeight: '1.4' }}>
+          <span className="flex-1 leading-tight">
             {toast.message}
           </span>
           <button
-            style={closeButtonStyles}
+            className="background-transparent border-none text-white text-lg cursor-pointer p-1 ml-auto opacity-80 hover:opacity-100 transition-opacity"
             onClick={(e) => {
               e.stopPropagation();
               hideToast(toast.id);
             }}
-            onMouseEnter={(e) => e.target.style.opacity = '1'}
-            onMouseLeave={(e) => e.target.style.opacity = '0.8'}
           >
             ×
           </button>

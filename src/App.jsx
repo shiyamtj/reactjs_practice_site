@@ -9,6 +9,7 @@ import ContentsExamples from './pages/examples/ContentsExamples'
 import FormsExamples from './pages/examples/FormsExamples'
 import { ToastProvider } from './contexts/ToastContext'
 import { ContactProvider } from './contexts/ContactContext'
+import { ThemeProvider } from './contexts/ThemeContext'
 import ToastContainer from './components/ToastContainer'
 
 function AppContent() {
@@ -35,7 +36,7 @@ function AppContent() {
   ];
 
   return (
-    <div className="min-h-screen flex flex-col bg-white">
+    <div className="min-h-screen flex flex-col bg-white dark:bg-slate-900 transition-colors">
       <Header menuItems={menuItems} />
       <main className="flex-1">
         <Routes>
@@ -57,12 +58,14 @@ function AppContent() {
 
 function App() {
   return (
-    <ToastProvider>
-      <Router>
-        <AppContent />
-      </Router>
-      <ToastContainer />
-    </ToastProvider>
+    <ThemeProvider>
+      <ToastProvider>
+        <Router>
+          <AppContent />
+        </Router>
+        <ToastContainer />
+      </ToastProvider>
+    </ThemeProvider>
   );
 }
 

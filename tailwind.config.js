@@ -16,20 +16,33 @@ export default {
         'brand-secondary-dark': '#6b4299',
         'brand-secondary-light': '#8e5cad',
         
-        // Text Colors
-        'text-primary': '#2c3e50',
-        'text-secondary': '#5a6c7d',
-        'text-muted': '#6b7280',
-        'text-light': '#9ca3af',
+        // Dark Mode Colors - Industry Standard
+        'dark-bg': '#0f172a',      // Slate-900 - Professional dark background
+        'dark-bg-secondary': '#1e293b', // Slate-800 - Cards, panels
+        'dark-bg-tertiary': '#334155',  // Slate-700 - Hover states
+        'dark-border': '#1e293b',      // Slate-800 - Borders
+        'dark-border-secondary': '#334155', // Slate-700 - Secondary borders
+        
+        // Text Colors - High Contrast
+        'text-primary': '#0f172a',     // Slate-900 - Primary text
+        'text-secondary': '#475569',   // Slate-600 - Secondary text
+        'text-muted': '#64748b',       // Slate-500 - Muted text
+        'text-light': '#94a3b8',       // Slate-400 - Light text
         'text-white': '#ffffff',
+        
+        // Dark Mode Text - High Contrast
+        'dark-text-primary': '#f8fafc',   // Slate-50 - Primary dark text
+        'dark-text-secondary': '#e2e8f0',  // Slate-200 - Secondary dark text
+        'dark-text-muted': '#cbd5e1',      // Slate-300 - Muted dark text
+        'dark-text-inverse': '#94a3b8',    // Slate-400 - Inverse text
         
         // Background Colors
         'bg-primary': '#ffffff',
         'bg-secondary': '#f8fafc',
         'bg-tertiary': '#f1f5f9',
         'bg-quaternary': '#f3f4f6',
-        'bg-dark': '#2c3e50',
-        'bg-darker': '#1a252f',
+        'bg-dark': '#0f172a',
+        'bg-darker': '#020617',
         
         // Surface Colors
         'surface-elevated': '#ffffff',
@@ -39,6 +52,12 @@ export default {
         'surface-border': '#e5e7eb',
         'surface-border-light': '#f3f4f6',
         'surface-border-dark': '#d1d5db',
+        
+        // Dark Mode Surfaces
+        'dark-surface': '#1e293b',        // Slate-800 - Dark surfaces
+        'dark-surface-hover': '#334155',  // Slate-700 - Dark hover
+        'dark-surface-active': '#475569', // Slate-600 - Dark active
+        'dark-surface-elevated': '#0f172a', // Slate-900 - Dark elevated
         
         // Accent Colors
         'accent-primary': '#667eea',

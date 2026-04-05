@@ -10,7 +10,7 @@ const Header = ({
 }) => {
 
   return (
-    <header className="fixed top-0 left-0 right-0 w-full bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-lg backdrop-blur-sm z-50">
+    <header className="fixed top-0 left-0 right-0 w-full bg-gradient-to-r from-indigo-500 to-purple-600 dark:from-slate-800 dark:to-slate-900 text-white shadow-lg backdrop-blur-sm z-50">
       <div className="container-custom py-4">
         <div className="flex items-center justify-between gap-8">
           <div className="flex items-center gap-4 group">
@@ -22,7 +22,9 @@ const Header = ({
               <p className="text-sm m-0 opacity-90 font-medium">{subtitle}</p>
             </div>
           </div>
-          <Menu items={menuItems} />
+          <div className="flex items-center gap-4">
+            <Menu items={menuItems} />
+          </div>
         </div>
       </div>
     </header>

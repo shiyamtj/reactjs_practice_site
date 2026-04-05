@@ -92,7 +92,7 @@ const Menu = ({ items = [], className = '' }) => {
             className={`
               ${isSubmenu 
                 ? `mt-1 ml-4 space-y-1 overflow-hidden transition-all duration-200 ${isSubmenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`
-                : `absolute top-full left-0 mt-1 w-48 bg-white/95 backdrop-blur-sm rounded-xl shadow-xl overflow-hidden transition-all duration-200 z-50 ${isSubmenuOpen ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-2'}`
+                : `absolute top-full left-0 mt-1 w-48 bg-white/95 dark:bg-slate-800/95 backdrop-blur-sm rounded-xl shadow-xl overflow-hidden transition-all duration-200 z-50 ${isSubmenuOpen ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-2'}`
               }
             `}
           >
@@ -104,9 +104,9 @@ const Menu = ({ items = [], className = '' }) => {
                     block px-4 py-2 transition-colors duration-200
                     ${isSubmenu 
                       ? 'text-white/90 hover:bg-white/10 hover:text-white rounded-xl' 
-                      : 'text-gray-800 hover:bg-indigo-50 hover:text-indigo-600'
+                      : 'text-slate-800 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-indigo-600'
                     }
-                    ${location.pathname === subItem.href ? (isSubmenu ? 'bg-white/20 text-white' : 'bg-indigo-50 text-indigo-600') : ''}
+                    ${location.pathname === subItem.href ? (isSubmenu ? 'bg-white/20 text-white' : 'bg-slate-50 dark:bg-slate-700 text-indigo-600') : ''}
                   `}
                 >
                   {subItem.label}
@@ -149,7 +149,7 @@ const Menu = ({ items = [], className = '' }) => {
       {/* Mobile menu */}
       <div
         className={`
-          lg:hidden fixed top-16 right-0 w-80 h-[calc(100vh-4rem)] bg-gradient-to-b from-indigo-600 via-purple-600 to-purple-700 shadow-2xl transform transition-transform duration-300 ease-in-out z-[60] rounded-l-2xl
+          lg:hidden fixed top-16 right-0 w-80 h-[calc(100vh-4rem)] bg-gradient-to-b from-indigo-600 via-purple-600 to-purple-700 dark:from-slate-800 dark:via-slate-800 dark:to-slate-900 shadow-2xl transform transition-transform duration-300 ease-in-out z-[60] rounded-l-2xl
           ${mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}
         `}
       >
@@ -180,8 +180,7 @@ const Menu = ({ items = [], className = '' }) => {
       {/* Mobile menu overlay */}
       {mobileMenuOpen && (
         <div
-          className="lg:hidden fixed inset-0 bg-black/50 z-[50]"
-          style={{ paddingTop: '4rem' }}
+          className="lg:hidden fixed inset-0 bg-black/50 z-[50] pt-16"
           onClick={toggleMobileMenu}
         />
       )}
