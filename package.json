@@ -9,10 +9,22 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "server": "node server.js",
+    "dev:full": "concurrently \"npm run server\" \"npm run dev\"",
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:ui": "playwright test --ui",
+    "test:debug": "playwright test --debug",
+    "test:install": "playwright install"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.2.2",
+    "axios": "^1.14.0",
+    "concurrently": "^9.2.1",
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "lucide-react": "^1.7.0",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "react-router-dom": "^7.14.0",
@@ -21,6 +33,7 @@
   "devDependencies": {
     "@chromatic-com/storybook": "^5.1.1",
     "@eslint/js": "^9.39.4",
+    "@playwright/test": "^1.59.1",
     "@storybook/addon-a11y": "^10.3.4",
     "@storybook/addon-docs": "^10.3.4",
     "@storybook/addon-onboarding": "^10.3.4",

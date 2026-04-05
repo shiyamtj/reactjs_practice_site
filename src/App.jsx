@@ -7,6 +7,9 @@ import Contact from './pages/Contact'
 import NotificationsExamples from './pages/examples/NotificationsExamples'
 import ContentsExamples from './pages/examples/ContentsExamples'
 import FormsExamples from './pages/examples/FormsExamples'
+import { ToastProvider } from './contexts/ToastContext'
+import { ContactProvider } from './contexts/ContactContext'
+import ToastContainer from './components/ToastContainer'
 
 function AppContent() {
   const location = useLocation();
@@ -37,7 +40,11 @@ function AppContent() {
       <main className="flex-1">
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/contact" element={<Contact />} />
+          <Route path="/contact" element={
+            <ContactProvider>
+              <Contact />
+            </ContactProvider>
+          } />
           <Route path="/examples/notifications" element={<NotificationsExamples />} />
           <Route path="/examples/contents" element={<ContentsExamples />} />
           <Route path="/examples/forms" element={<FormsExamples />} />
@@ -50,9 +57,12 @@ function AppContent() {
 
 function App() {
   return (
-    <Router>
-      <AppContent />
-    </Router>
+    <ToastProvider>
+      <Router>
+        <AppContent />
+      </Router>
+      <ToastContainer />
+    </ToastProvider>
   );
 }
 
