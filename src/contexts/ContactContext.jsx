@@ -22,7 +22,7 @@ export const ContactProvider = ({ children }) => {
   const loadContacts = async () => {
     try {
       setIsLoading(true);
-      const response = await fetch('/api/contacts');
+      const response = await fetch('http://localhost:3001/api/contacts');
       const data = await response.json();
       setContacts(data);
     } catch (error) {
@@ -45,7 +45,7 @@ export const ContactProvider = ({ children }) => {
 
   const deleteContact = async (id) => {
     try {
-      const response = await fetch(`/api/contacts/${id}`, {
+      const response = await fetch(`http://localhost:3001/api/contacts/${id}`, {
         method: 'DELETE',
       });
       
@@ -71,7 +71,7 @@ export const ContactProvider = ({ children }) => {
 
   const deleteMultipleContacts = async (ids) => {
     try {
-      const response = await fetch('/api/contacts', {
+      const response = await fetch('http://localhost:3001/api/contacts', {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -102,7 +102,7 @@ export const ContactProvider = ({ children }) => {
 
   const deleteAllContacts = async () => {
     try {
-      const response = await fetch('/api/contacts/all', {
+      const response = await fetch('http://localhost:3001/api/contacts/all', {
         method: 'DELETE',
       });
       

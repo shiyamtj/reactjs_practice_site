@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PageLayout from '../../components/PageLayout';
 
 const ContentsExamples = () => {
   const [activeTab, setActiveTab] = useState('cards');
@@ -37,15 +38,12 @@ const ContentsExamples = () => {
   };
 
   return (
-    <div className="min-h-screen section-padding">
-      <div className="container-custom">
-        <div className="max-w-6xl mx-auto">
-          <h1 className="text-4xl lg:text-5xl font-bold mb-8 text-gradient">
-            Content Components Examples
-          </h1>
-          <p className="text-lg text-slate-600 dark:text-slate-300 mb-12 max-w-3xl">
-            Explore various React content components with interactive examples and best practices.
-          </p>
+    <PageLayout 
+      title="Content Components Examples"
+      description="Explore various React content components with interactive examples and best practices."
+      maxWidth="max-w-6xl"
+    >
+      <div>
 
           {/* Tab Navigation */}
           <section className="mb-16">
@@ -392,8 +390,7 @@ const ContentsExamples = () => {
             </div>
           </section>
         </div>
-      </div>
-    </div>
+    </PageLayout>
   );
 };
 

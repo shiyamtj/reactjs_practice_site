@@ -4,13 +4,16 @@ import Header from './components/Header'
 import Footer from './components/Footer'
 import Home from './pages/Home'
 import Contact from './pages/Contact'
-import NotificationsExamples from './pages/examples/NotificationsExamples'
+import ToastExamples from './pages/examples/ToastExamples'
 import ContentsExamples from './pages/examples/ContentsExamples'
 import FormsExamples from './pages/examples/FormsExamples'
+import AlertExamples from './pages/examples/AlertExamples'
 import { ToastProvider } from './contexts/ToastContext'
 import { ContactProvider } from './contexts/ContactContext'
 import { ThemeProvider } from './contexts/ThemeContext'
+import { AlertProvider } from './contexts/AlertContext'
 import ToastContainer from './components/ToastContainer'
+import AlertContainer from './components/AlertContainer'
 
 function AppContent() {
   const location = useLocation();
@@ -24,9 +27,10 @@ function AppContent() {
       label: 'Examples',
       href: '/examples',
       submenu: [
-        { label: 'Notifications Examples', href: '/examples/notifications' },
         { label: 'Contents Examples', href: '/examples/contents' },
-        { label: 'Forms Examples', href: '/examples/forms' }
+        { label: 'Forms Examples', href: '/examples/forms' },
+        { label: 'Toast Examples', href: '/examples/toasts' },
+        { label: 'Alert Examples', href: '/examples/alerts' }
       ]
     },
     {
@@ -46,9 +50,10 @@ function AppContent() {
               <Contact />
             </ContactProvider>
           } />
-          <Route path="/examples/notifications" element={<NotificationsExamples />} />
           <Route path="/examples/contents" element={<ContentsExamples />} />
           <Route path="/examples/forms" element={<FormsExamples />} />
+          <Route path="/examples/toasts" element={<ToastExamples />} />
+          <Route path="/examples/alerts" element={<AlertExamples />} />
         </Routes>
       </main>
       <Footer />
@@ -60,10 +65,13 @@ function App() {
   return (
     <ThemeProvider>
       <ToastProvider>
-        <Router>
-          <AppContent />
-        </Router>
-        <ToastContainer />
+        <AlertProvider>
+          <Router>
+            <AppContent />
+          </Router>
+          <ToastContainer />
+          <AlertContainer />
+        </AlertProvider>
       </ToastProvider>
     </ThemeProvider>
   );

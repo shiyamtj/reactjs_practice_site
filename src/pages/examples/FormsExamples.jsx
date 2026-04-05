@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import PageLayout from '../../components/PageLayout';
 
 const FormsExamples = () => {
   const [formData, setFormData] = useState({
@@ -114,16 +115,12 @@ const FormsExamples = () => {
   };
 
   return (
-    <div className="min-h-screen section-padding">
-      <div className="container-custom">
-        <div className="max-w-4xl mx-auto">
-          <h1 className="text-4xl lg:text-5xl font-bold mb-8 text-gradient">
-            Forms Examples
-          </h1>
-          <p className="text-lg text-slate-600 dark:text-slate-300 mb-12 max-w-3xl">
-            Comprehensive form examples showcasing various input types, validation patterns, and user interactions in React.
-          </p>
-
+    <PageLayout 
+      title="Forms Examples"
+      description="Comprehensive form examples showcasing various input types, validation patterns, and user interactions in React."
+      maxWidth="max-w-4xl"
+    >
+      <div>
           {/* Main Registration Form */}
           <section className="mb-16">
             <div className="card p-8">
@@ -579,8 +576,7 @@ const FormsExamples = () => {
             </div>
           </section>
         </div>
-      </div>
-    </div>
+    </PageLayout>
   );
 };
 

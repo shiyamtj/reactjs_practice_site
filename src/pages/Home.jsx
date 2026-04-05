@@ -1,19 +1,18 @@
 import React from 'react';
+import PageLayout from '../components/PageLayout';
 
 const Home = () => {
   return (
-    <div className="min-h-screen">
+    <PageLayout 
+      title="Welcome to Our Modern Website"
+      description="Experience the perfect blend of cutting-edge technology and elegant design, built with React and Vite for exceptional performance."
+      showHeader={false}
+    >
       {/* Hero Section */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-gray-50 to-gray-200 dark:from-slate-800 dark:to-slate-900 opacity-50"></div>
         <div className="relative container-custom section-padding">
           <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-5xl lg:text-6xl font-bold mb-6 text-gradient text-balance">
-              Welcome to Our Modern Website
-            </h2>
-            <p className="text-xl lg:text-2xl text-slate-600 dark:text-slate-300 mb-10 max-w-3xl mx-auto text-pretty leading-relaxed">
-              Experience the perfect blend of cutting-edge technology and elegant design, built with React and Vite for exceptional performance.
-            </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <button className="btn-primary text-lg px-8 py-4">
                 Get Started
@@ -118,7 +117,7 @@ const Home = () => {
           </div>
         </div>
       </section>
-    </div>
+    </PageLayout>
   );
 };
 

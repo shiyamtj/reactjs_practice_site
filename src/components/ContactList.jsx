@@ -4,15 +4,11 @@ import { useToast } from '../contexts/ToastContext';
 import ConfirmModal from './ConfirmModal';
 
 const ContactList = () => {
-  const { contacts, isLoading, deleteMultipleContacts, deleteAllContacts } = useContacts();
+  const { contacts, isLoading, deleteContact, deleteMultipleContacts, deleteAllContacts } = useContacts();
+  const { showToast } = useToast();
   const [selectedContacts, setSelectedContacts] = useState(new Set());
   const [isDeleting, setIsDeleting] = useState(false);
-  const [modalConfig, setModalConfig] = useState({ isOpen: false, type: 'deleteSelected' });
-
-  const showToast = (message, type = 'info') => {
-    // This would use the toast context
-    console.log(`${type}: ${message}`);
-  };
+  const [modalConfig, setModalConfig] = useState({ isOpen: false, type: 'deleteSelected', contactId: null });
 
   const toggleContactSelection = (contactId) => {
     const newSelection = new Set(selectedContacts);
@@ -32,19 +28,20 @@ const ContactList = () => {
     }
   };
 
-  const openModal = (type, title, message, confirmText, modalType = 'danger') => {
+  const openModal = (type, title, message, confirmText, modalType = 'danger', contactId = null) => {
     setModalConfig({
       isOpen: true,
       type,
       title,
       message,
       confirmText,
-      modalType
+      modalType,
+      contactId
     });
   };
 
   const closeModal = () => {
-    setModalConfig({ isOpen: false, type: 'deleteSelected' });
+    setModalConfig({ isOpen: false, type: 'deleteSelected', contactId: null });
   };
 
   const confirmDeleteSelected = async () => {
@@ -73,6 +70,31 @@ const ContactList = () => {
     } finally {
       setIsDeleting(false);
     }
+  };
+
+  const confirmDeleteContact = async () => {
+    setIsDeleting(true);
+    try {
+      await deleteContact(modalConfig.contactId);
+      showToast('Contact deleted successfully', 'success');
+      closeModal();
+    } catch (error) {
+      showToast('Failed to delete contact', 'error');
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
+  const handleDeleteContact = (contactId) => {
+    const contact = contacts.find(c => c.id === contactId);
+    openModal(
+      'deleteSingle',
+      'Delete Contact',
+      `Are you sure you want to delete ${contact.firstName} ${contact.lastName}? This action cannot be undone.`,
+      'Delete Contact',
+      'danger',
+      contactId
+    );
   };
 
   const deleteSelectedContacts = () => {
@@ -108,6 +130,7 @@ const ContactList = () => {
       case 'high': return 'text-red-700 bg-red-100/80 border-red-200';
       case 'medium': return 'text-yellow-700 bg-yellow-100/80 border-yellow-200';
       case 'low': return 'text-green-700 bg-green-100/80 border-green-200';
+      case 'normal': return 'text-blue-700 bg-blue-100/80 border-blue-200';
       default: return 'text-gray-700 dark:text-slate-300 bg-gray-100/80 dark:bg-slate-800/80 border-gray-200 dark:border-slate-700';
     }
   };
@@ -315,6 +338,22 @@ const ContactList = () => {
                       <span>Preferred: {contact.preferredContact}</span>
                       <span>{formatDate(contact.timestamp)}</span>
                     </div>
+                    
+                    {/* Delete Button */}
+                    <div className="pt-2">
+                      <button
+                        onClick={() => handleDeleteContact(contact.id)}
+                        disabled={isDeleting}
+                        className="btn-danger px-3 py-1 rounded-lg text-xs font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        <span className="flex items-center gap-1">
+                          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                          </svg>
+                          Delete
+                        </span>
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -327,7 +366,11 @@ const ContactList = () => {
       <ConfirmModal
         isOpen={modalConfig.isOpen}
         onClose={closeModal}
-        onConfirm={modalConfig.type === 'deleteSelected' ? confirmDeleteSelected : confirmDeleteAll}
+        onConfirm={
+          modalConfig.type === 'deleteSingle' ? confirmDeleteContact :
+          modalConfig.type === 'deleteSelected' ? confirmDeleteSelected :
+          confirmDeleteAll
+        }
         title={modalConfig.title}
         message={modalConfig.message}
         confirmText={modalConfig.confirmText}
