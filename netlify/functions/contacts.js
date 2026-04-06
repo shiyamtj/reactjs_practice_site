@@ -56,7 +56,7 @@ export async function handler(event, context) {
 
   if (httpMethod === 'DELETE') {
     // Delete all contacts
-    if (requestPath.endsWith('/all')) {
+    if (requestPath === '/all') {
       try {
         let deletedCount = 0;
         try {
@@ -95,8 +95,8 @@ export async function handler(event, context) {
     }
 
     // Delete single contact by ID
-    const idMatch = requestPath.match(/\/contacts\/(.+)$/);
-    if (idMatch) {
+    const idMatch = requestPath.match(/^\/(.+)$/);
+    if (idMatch && requestPath !== '/all') {
       try {
         const contactId = idMatch[1];
         
