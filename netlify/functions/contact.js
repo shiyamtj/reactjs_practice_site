@@ -1,11 +1,11 @@
-import { getDeployStore } from '@netlify/blobs';
+import { getStore } from '@netlify/blobs';
 
 const STORE_NAME = 'contacts';
 const BLOB_KEY = 'contacts.json';
 
-// Get deploy store - automatically configured
+// Get site-scoped store - persists across deploys
 function getContactsStore() {
-  return getDeployStore({ name: STORE_NAME });
+  return getStore({ name: STORE_NAME });
 }
 
 // Initialize contacts blob if it doesn't exist
