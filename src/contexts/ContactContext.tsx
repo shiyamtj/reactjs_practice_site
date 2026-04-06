@@ -93,7 +93,7 @@ export const ContactProvider: React.FC<ContactProviderProps> = ({ children }) =>
 
   const deleteMultipleContacts = async (ids: string[]): Promise<void> => {
     try {
-      const response = await fetch('http://localhost:3001/api/contacts/bulk', {
+      const response = await fetch('http://localhost:3001/api/contacts', {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -114,7 +114,7 @@ export const ContactProvider: React.FC<ContactProviderProps> = ({ children }) =>
 
   const deleteAllContacts = async (): Promise<void> => {
     try {
-      const response = await fetch('http://localhost:3001/api/contacts', {
+      const response = await fetch('http://localhost:3001/api/contacts/all', {
         method: 'DELETE',
       });
       
