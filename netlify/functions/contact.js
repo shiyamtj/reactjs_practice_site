@@ -30,6 +30,8 @@ export default async (request) => {
   await initializeContactsBlob(store);
 
   const method = request.method;
+  const url = new URL(request.url);
+  const requestPath = url.pathname.replace("/api/contact", "") || "/";
 
   // Handle CORS preflight
   if (method === 'OPTIONS') {
@@ -37,7 +39,7 @@ export default async (request) => {
       status: 200,
       headers: {
         'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'POST, OPTIONS',
+        'Access-Control-Allow-Methods': 'POST, DELETE, OPTIONS',
         'Access-Control-Allow-Headers': 'Content-Type'
       }
     });
@@ -108,6 +110,82 @@ export default async (request) => {
           }
         }
       );
+    }
+  }
+
+  if (method === 'DELETE') {
+    // Delete single contact by ID
+    const idMatch = requestPath.match(/^\/(.+)$/);
+    if (idMatch) {
+      try {
+        const contactId = idMatch[1];
+
+        let contacts = [];
+        try {
+          const blob = await store.get(BLOB_KEY);
+          contacts = JSON.parse(blob);
+        } catch (error) {
+          return new Response(
+            JSON.stringify({ success: false, message: 'No contacts found' }),
+            {
+              status: 404,
+              headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+              }
+            }
+          );
+        }
+
+        const initialLength = contacts.length;
+        contacts = contacts.filter(
+          (contact) => contact.id.toString() !== contactId.toString()
+        );
+
+        if (contacts.length === initialLength) {
+          return new Response(
+            JSON.stringify({ success: false, message: 'Contact not found' }),
+            {
+              status: 404,
+              headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+              }
+            }
+          );
+        }
+
+        await store.setJSON(BLOB_KEY, contacts);
+
+        return new Response(
+          JSON.stringify({
+            success: true,
+            message: 'Contact deleted successfully'
+          }),
+          {
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+              'Access-Control-Allow-Origin': '*'
+            }
+          }
+        );
+      } catch (error) {
+        console.error('Error deleting contact:', error);
+        return new Response(
+          JSON.stringify({
+            success: false,
+            message: 'Failed to delete contact'
+          }),
+          {
+            status: 500,
+            headers: {
+              'Content-Type': 'application/json',
+              'Access-Control-Allow-Origin': '*'
+            }
+          }
+        );
+      }
     }
   }
 

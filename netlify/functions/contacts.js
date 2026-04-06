@@ -120,80 +120,6 @@ export default async (request, context) => {
       }
     }
 
-    // Delete single contact by ID
-    const idMatch = requestPath.match(/^\/(.+)$/);
-    if (idMatch && requestPath !== "/all") {
-      try {
-        const contactId = idMatch[1];
-
-        let contacts = [];
-        try {
-          const blob = await store.get(BLOB_KEY);
-          contacts = JSON.parse(blob);
-        } catch (error) {
-          return new Response(
-            JSON.stringify({ success: false, message: "No contacts found" }),
-            {
-              status: 404,
-              headers: {
-                "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "*",
-              },
-            },
-          );
-        }
-
-        const initialLength = contacts.length;
-        contacts = contacts.filter(
-          (contact) => contact.id.toString() !== contactId.toString(),
-        );
-
-        if (contacts.length === initialLength) {
-          return new Response(
-            JSON.stringify({ success: false, message: "Contact not found" }),
-            {
-              status: 404,
-              headers: {
-                "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "*",
-              },
-            },
-          );
-        }
-
-        await store.setJSON(BLOB_KEY, contacts);
-
-        return new Response(
-          JSON.stringify({
-            success: true,
-            message: "Contact deleted successfully",
-          }),
-          {
-            status: 200,
-            headers: {
-              "Content-Type": "application/json",
-              "Access-Control-Allow-Origin": "*",
-            },
-          },
-        );
-      } catch (error) {
-        console.error("Error deleting contact:", error);
-        return new Response(
-          JSON.stringify({
-            success: false,
-            message: "Failed to delete contact",
-          }),
-          {
-            status: 500,
-            headers: {
-              "Content-Type": "application/json",
-              "Access-Control-Allow-Origin": "*",
-            },
-          },
-        );
-      }
-    }
-
     // Delete multiple contacts
     try {
       const { ids } = await request.json();
@@ -216,7 +142,8 @@ export default async (request, context) => {
 
       let contacts = [];
       try {
-        contacts = await store.getJSON(BLOB_KEY);
+        const blob = await store.get(BLOB_KEY);
+        contacts = JSON.parse(blob);
       } catch (error) {
         return new Response(
           JSON.stringify({ success: false, message: "No contacts found" }),

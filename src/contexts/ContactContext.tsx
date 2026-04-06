@@ -76,7 +76,7 @@ export const ContactProvider: React.FC<ContactProviderProps> = ({ children }) =>
 
   const deleteContact = async (id: string): Promise<void> => {
     try {
-      const response = await fetch(`/api/contacts/${id}`, {
+      const response = await fetch(`/api/contact/${id}`, {
         method: 'DELETE',
       });
       

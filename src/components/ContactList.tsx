@@ -17,7 +17,7 @@ interface Contact {
   subject: string;
   message: string;
   urgency: 'high' | 'medium' | 'low' | 'normal';
-  preferredContact: string;
+  preferredContact: string[];
   timestamp: number;
 }
 
@@ -378,7 +378,7 @@ const ContactList: React.FC = () => {
                     </div>
                     
                     <div className="flex items-center justify-between text-xs text-gray-500 dark:text-slate-400">
-                      <span>Preferred: {contact.preferredContact}</span>
+                      <span>Preferred: {Array.isArray(contact.preferredContact) ? contact.preferredContact.join(', ') : contact.preferredContact}</span>
                       <span>{formatDate(contact.timestamp)}</span>
                     </div>
                     
