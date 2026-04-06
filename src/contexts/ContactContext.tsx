@@ -14,7 +14,7 @@ interface Contact {
   subject: string;
   message: string;
   urgency: 'high' | 'medium' | 'low' | 'normal';
-  preferredContact: string;
+  preferredContact: string[];
   timestamp: number;
 }
 

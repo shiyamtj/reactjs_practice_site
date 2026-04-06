@@ -1,0 +1,226 @@
+[
+  {
+    "street": "123 Main Street",
+    "city": "New York",
+    "state": "NY",
+    "zipCode": "10001",
+    "country": "United States"
+  },
+  {
+    "street": "456 Oak Avenue",
+    "city": "Los Angeles",
+    "state": "CA",
+    "zipCode": "90001",
+    "country": "United States"
+  },
+  {
+    "street": "789 Pine Road",
+    "city": "Chicago",
+    "state": "IL",
+    "zipCode": "60601",
+    "country": "United States"
+  },
+  {
+    "street": "321 Elm Street",
+    "city": "Houston",
+    "state": "TX",
+    "zipCode": "77001",
+    "country": "United States"
+  },
+  {
+    "street": "654 Maple Drive",
+    "city": "Phoenix",
+    "state": "AZ",
+    "zipCode": "85001",
+    "country": "United States"
+  },
+  {
+    "street": "987 Cedar Lane",
+    "city": "Philadelphia",
+    "state": "PA",
+    "zipCode": "19019",
+    "country": "United States"
+  },
+  {
+    "street": "147 Birch Boulevard",
+    "city": "San Antonio",
+    "state": "TX",
+    "zipCode": "78201",
+    "country": "United States"
+  },
+  {
+    "street": "258 Willow Way",
+    "city": "San Diego",
+    "state": "CA",
+    "zipCode": "92101",
+    "country": "United States"
+  },
+  {
+    "street": "369 Spruce Street",
+    "city": "Dallas",
+    "state": "TX",
+    "zipCode": "75201",
+    "country": "United States"
+  },
+  {
+    "street": "741 Aspen Court",
+    "city": "San Jose",
+    "state": "CA",
+    "zipCode": "95101",
+    "country": "United States"
+  },
+  {
+    "street": "852 Redwood Road",
+    "city": "Austin",
+    "state": "TX",
+    "zipCode": "78701",
+    "country": "United States"
+  },
+  {
+    "street": "963 Cypress Circle",
+    "city": "Jacksonville",
+    "state": "FL",
+    "zipCode": "32099",
+    "country": "United States"
+  },
+  {
+    "street": "159 Palm Avenue",
+    "city": "Miami",
+    "state": "FL",
+    "zipCode": "33101",
+    "country": "United States"
+  },
+  {
+    "street": "357 Beach Boulevard",
+    "city": "San Francisco",
+    "state": "CA",
+    "zipCode": "94101",
+    "country": "United States"
+  },
+  {
+    "street": "486 Sunset Drive",
+    "city": "Seattle",
+    "state": "WA",
+    "zipCode": "98101",
+    "country": "United States"
+  },
+  {
+    "street": "572 Mountain View",
+    "city": "Denver",
+    "state": "CO",
+    "zipCode": "80201",
+    "country": "United States"
+  },
+  {
+    "street": "681 River Road",
+    "city": "Boston",
+    "state": "MA",
+    "zipCode": "02101",
+    "country": "United States"
+  },
+  {
+    "street": "793 Lake Street",
+    "city": "Detroit",
+    "state": "MI",
+    "zipCode": "48201",
+    "country": "United States"
+  },
+  {
+    "street": "864 Forest Lane",
+    "city": "Portland",
+    "state": "OR",
+    "zipCode": "97201",
+    "country": "United States"
+  },
+  {
+    "street": "975 Meadow Court",
+    "city": "Atlanta",
+    "state": "GA",
+    "zipCode": "30301",
+    "country": "United States"
+  },
+  {
+    "street": "246 Valley View",
+    "city": "Las Vegas",
+    "state": "NV",
+    "zipCode": "89101",
+    "country": "United States"
+  },
+  {
+    "street": "135 Hilltop Drive",
+    "city": "Nashville",
+    "state": "TN",
+    "zipCode": "37201",
+    "country": "United States"
+  },
+  {
+    "street": "42 Queen Street",
+    "city": "Auckland",
+    "state": "Auckland",
+    "zipCode": "1010",
+    "country": "New Zealand"
+  },
+  {
+    "street": "15 Lambton Quay",
+    "city": "Wellington",
+    "state": "Wellington",
+    "zipCode": "6011",
+    "country": "New Zealand"
+  },
+  {
+    "street": "88 Victoria Street",
+    "city": "Christchurch",
+    "state": "Canterbury",
+    "zipCode": "8013",
+    "country": "New Zealand"
+  },
+  {
+    "street": "7 Queens Road",
+    "city": "Hamilton",
+    "state": "Waikato",
+    "zipCode": "3204",
+    "country": "New Zealand"
+  },
+  {
+    "street": "25 George Street",
+    "city": "Dunedin",
+    "state": "Otago",
+    "zipCode": "9016",
+    "country": "New Zealand"
+  },
+  {
+    "street": "100 Elizabeth Street",
+    "city": "Sydney",
+    "state": "NSW",
+    "zipCode": "2000",
+    "country": "Australia"
+  },
+  {
+    "street": "55 Collins Street",
+    "city": "Melbourne",
+    "state": "VIC",
+    "zipCode": "3000",
+    "country": "Australia"
+  },
+  {
+    "street": "12 Queen Street",
+    "city": "Brisbane",
+    "state": "QLD",
+    "zipCode": "4000",
+    "country": "Australia"
+  },
+  {
+    "street": "30 St Georges Terrace",
+    "city": "Perth",
+    "state": "WA",
+    "zipCode": "6000",
+    "country": "Australia"
+  },
+  {
+    "street": "77 King William Street",
+    "city": "Adelaide",
+    "state": "SA",
+    "zipCode": "5000",
+    "country": "Australia"
+  }
+]
