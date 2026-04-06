@@ -1,15 +1,11 @@
-import { getStore } from '@netlify/blobs';
+import { getDeployStore } from '@netlify/blobs';
 
 const STORE_NAME = 'contacts';
 const BLOB_KEY = 'contacts.json';
 
-// Get store with environment credentials
+// Get deploy store - automatically configured
 function getContactsStore() {
-  return getStore({
-    name: STORE_NAME,
-    siteID: process.env.NETLIFY_SITE_ID,
-    token: process.env.NETLIFY_BLOBS_TOKEN
-  });
+  return getDeployStore({ name: STORE_NAME });
 }
 
 // Initialize contacts blob if it doesn't exist
@@ -24,52 +20,57 @@ async function initializeContactsBlob(store) {
   }
 }
 
-export async function handler(event, context) {
-  // Get the blob store with credentials
+export default async (request, context) => {
+  // Get the blob store
   const store = getContactsStore();
   
   // Initialize contacts blob on first invocation
   await initializeContactsBlob(store);
-  
-  const { httpMethod, path: requestPath } = event;
+
+  const method = request.method;
+  const url = new URL(request.url);
+  const requestPath = url.pathname.replace('/api/contacts', '') || '/';
 
   // Handle CORS preflight
-  if (httpMethod === 'OPTIONS') {
-    return {
-      statusCode: 200,
+  if (method === 'OPTIONS') {
+    return new Response('', {
+      status: 200,
       headers: {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods': 'GET, DELETE, OPTIONS',
         'Access-Control-Allow-Headers': 'Content-Type'
-      },
-      body: ''
-    };
+      }
+    });
   }
 
-  if (httpMethod === 'GET') {
+  if (method === 'GET') {
     try {
       const data = await store.getJSON(BLOB_KEY);
-      return {
-        statusCode: 200,
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*'
-        },
-        body: JSON.stringify(data || [])
-      };
+      return new Response(
+        JSON.stringify(data || []),
+        {
+          status: 200,
+          headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'
+          }
+        }
+      );
     } catch (error) {
-      return {
-        statusCode: 200,
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*'
-        },
-        body: JSON.stringify([])
-      };
+      return new Response(
+        JSON.stringify([]),
+        {
+          status: 200,
+          headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'
+          }
+        }
+      );
     }
   }
 
-  if (httpMethod === 'DELETE') {
+  if (method === 'DELETE') {
     // Delete all contacts
     if (requestPath === '/all') {
       try {
@@ -83,28 +84,32 @@ export async function handler(event, context) {
 
         await store.setJSON(BLOB_KEY, []);
 
-        return {
-          statusCode: 200,
-          headers: {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*'
-          },
-          body: JSON.stringify({ 
+        return new Response(
+          JSON.stringify({ 
             success: true, 
             message: deletedCount > 0 ? `All ${deletedCount} contact(s) deleted successfully` : 'No contacts to delete',
             deletedCount 
-          })
-        };
+          }),
+          {
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+              'Access-Control-Allow-Origin': '*'
+            }
+          }
+        );
       } catch (error) {
         console.error('Error deleting all contacts:', error);
-        return {
-          statusCode: 500,
-          headers: {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*'
-          },
-          body: JSON.stringify({ success: false, message: 'Failed to delete all contacts' })
-        };
+        return new Response(
+          JSON.stringify({ success: false, message: 'Failed to delete all contacts' }),
+          {
+            status: 500,
+            headers: {
+              'Content-Type': 'application/json',
+              'Access-Control-Allow-Origin': '*'
+            }
+          }
+        );
       }
     }
 
@@ -118,14 +123,16 @@ export async function handler(event, context) {
         try {
           contacts = await store.getJSON(BLOB_KEY);
         } catch (error) {
-          return {
-            statusCode: 404,
-            headers: {
-              'Content-Type': 'application/json',
-              'Access-Control-Allow-Origin': '*'
-            },
-            body: JSON.stringify({ success: false, message: 'No contacts found' })
-          };
+          return new Response(
+            JSON.stringify({ success: false, message: 'No contacts found' }),
+            {
+              status: 404,
+              headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+              }
+            }
+          );
         }
 
         const initialLength = contacts.length;
@@ -134,66 +141,76 @@ export async function handler(event, context) {
         );
 
         if (contacts.length === initialLength) {
-          return {
-            statusCode: 404,
-            headers: {
-              'Content-Type': 'application/json',
-              'Access-Control-Allow-Origin': '*'
-            },
-            body: JSON.stringify({ success: false, message: 'Contact not found' })
-          };
+          return new Response(
+            JSON.stringify({ success: false, message: 'Contact not found' }),
+            {
+              status: 404,
+              headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+              }
+            }
+          );
         }
 
         await store.setJSON(BLOB_KEY, contacts);
 
-        return {
-          statusCode: 200,
-          headers: {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*'
-          },
-          body: JSON.stringify({ success: true, message: 'Contact deleted successfully' })
-        };
+        return new Response(
+          JSON.stringify({ success: true, message: 'Contact deleted successfully' }),
+          {
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+              'Access-Control-Allow-Origin': '*'
+            }
+          }
+        );
       } catch (error) {
         console.error('Error deleting contact:', error);
-        return {
-          statusCode: 500,
-          headers: {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*'
-          },
-          body: JSON.stringify({ success: false, message: 'Failed to delete contact' })
-        };
+        return new Response(
+          JSON.stringify({ success: false, message: 'Failed to delete contact' }),
+          {
+            status: 500,
+            headers: {
+              'Content-Type': 'application/json',
+              'Access-Control-Allow-Origin': '*'
+            }
+          }
+        );
       }
     }
 
     // Delete multiple contacts
     try {
-      const { ids } = JSON.parse(event.body);
+      const { ids } = await request.json();
       
       if (!ids || !Array.isArray(ids) || ids.length === 0) {
-        return {
-          statusCode: 400,
-          headers: {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*'
-          },
-          body: JSON.stringify({ success: false, message: 'No contact IDs provided' })
-        };
+        return new Response(
+          JSON.stringify({ success: false, message: 'No contact IDs provided' }),
+          {
+            status: 400,
+            headers: {
+              'Content-Type': 'application/json',
+              'Access-Control-Allow-Origin': '*'
+            }
+          }
+        );
       }
       
       let contacts = [];
       try {
         contacts = await store.getJSON(BLOB_KEY);
       } catch (error) {
-        return {
-          statusCode: 404,
-          headers: {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*'
-          },
-          body: JSON.stringify({ success: false, message: 'No contacts found' })
-        };
+        return new Response(
+          JSON.stringify({ success: false, message: 'No contacts found' }),
+          {
+            status: 404,
+            headers: {
+              'Content-Type': 'application/json',
+              'Access-Control-Allow-Origin': '*'
+            }
+          }
+        );
       }
 
       const initialLength = contacts.length;
@@ -204,49 +221,57 @@ export async function handler(event, context) {
       const deletedCount = initialLength - contacts.length;
 
       if (deletedCount === 0) {
-        return {
-          statusCode: 404,
-          headers: {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*'
-          },
-          body: JSON.stringify({ success: false, message: 'No contacts found with provided IDs' })
-        };
+        return new Response(
+          JSON.stringify({ success: false, message: 'No contacts found with provided IDs' }),
+          {
+            status: 404,
+            headers: {
+              'Content-Type': 'application/json',
+              'Access-Control-Allow-Origin': '*'
+            }
+          }
+        );
       }
 
       await store.setJSON(BLOB_KEY, contacts);
 
-      return {
-        statusCode: 200,
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*'
-        },
-        body: JSON.stringify({ 
+      return new Response(
+        JSON.stringify({ 
           success: true, 
           message: `${deletedCount} contact(s) deleted successfully`,
           deletedCount 
-        })
-      };
+        }),
+        {
+          status: 200,
+          headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'
+          }
+        }
+      );
     } catch (error) {
       console.error('Error deleting contacts:', error);
-      return {
-        statusCode: 500,
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*'
-        },
-        body: JSON.stringify({ success: false, message: 'Failed to delete contacts' })
-      };
+      return new Response(
+        JSON.stringify({ success: false, message: 'Failed to delete contacts' }),
+        {
+          status: 500,
+          headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'
+          }
+        }
+      );
     }
   }
 
-  return {
-    statusCode: 405,
-    headers: {
-      'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*'
-    },
-    body: JSON.stringify({ message: 'Method not allowed' })
-  };
-}
+  return new Response(
+    JSON.stringify({ message: 'Method not allowed' }),
+    {
+      status: 405,
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
+      }
+    }
+  );
+};
