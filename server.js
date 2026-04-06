@@ -9,7 +9,7 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = 3001;
-const DATA_FILE = path.join(__dirname, 'contacts.json');
+const DATA_FILE = path.join(__dirname, 'src', 'data', 'contacts.json');
 
 // Middleware
 app.use(cors());
