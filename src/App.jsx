@@ -5,8 +5,6 @@ import Footer from './components/Footer'
 import Home from './pages/Home'
 import Contact from './pages/Contact'
 import ToastExamples from './pages/examples/ToastExamples'
-import ContentsExamples from './pages/examples/ContentsExamples'
-import FormsExamples from './pages/examples/FormsExamples'
 import AlertExamples from './pages/examples/AlertExamples'
 import { ToastProvider } from './contexts/ToastContext'
 import { ContactProvider } from './contexts/ContactContext'
@@ -27,8 +25,6 @@ function AppContent() {
       label: 'Examples',
       href: '/examples',
       submenu: [
-        { label: 'Contents Examples', href: '/examples/contents' },
-        { label: 'Forms Examples', href: '/examples/forms' },
         { label: 'Toast Examples', href: '/examples/toasts' },
         { label: 'Alert Examples', href: '/examples/alerts' }
       ]
@@ -50,8 +46,6 @@ function AppContent() {
               <Contact />
             </ContactProvider>
           } />
-          <Route path="/examples/contents" element={<ContentsExamples />} />
-          <Route path="/examples/forms" element={<FormsExamples />} />
           <Route path="/examples/toasts" element={<ToastExamples />} />
           <Route path="/examples/alerts" element={<AlertExamples />} />
         </Routes>
