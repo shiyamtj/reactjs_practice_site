@@ -1,20 +1,26 @@
-import fs from 'fs/promises';
-import path from 'path';
+import { getStore } from '@netlify/blobs';
 
-const DATA_FILE = path.join('/tmp', 'contacts.json');
+const STORE_NAME = 'contacts';
+const BLOB_KEY = 'contacts.json';
 
-// Initialize contacts file if it doesn't exist
-async function initializeDataFile() {
+// Initialize contacts blob if it doesn't exist
+async function initializeContactsBlob(store) {
   try {
-    await fs.access(DATA_FILE);
+    const existing = await store.get(BLOB_KEY);
+    if (!existing) {
+      await store.setJSON(BLOB_KEY, []);
+    }
   } catch (error) {
-    await fs.writeFile(DATA_FILE, JSON.stringify([], null, 2));
+    await store.setJSON(BLOB_KEY, []);
   }
 }
 
 export async function handler(event, context) {
-  // Initialize data file on first invocation
-  await initializeDataFile();
+  // Get the blob store
+  const store = getStore(STORE_NAME);
+  
+  // Initialize contacts blob on first invocation
+  await initializeContactsBlob(store);
   
   const { httpMethod } = event;
 
@@ -39,11 +45,10 @@ export async function handler(event, context) {
         timestamp: new Date().toISOString()
       };
 
-      // Read existing contacts
+      // Read existing contacts from blob
       let contacts = [];
       try {
-        const data = await fs.readFile(DATA_FILE, 'utf8');
-        contacts = JSON.parse(data);
+        contacts = await store.getJSON(BLOB_KEY);
       } catch (error) {
         contacts = [];
       }
@@ -66,8 +71,8 @@ export async function handler(event, context) {
       // Add new contact
       contacts.push(contactData);
 
-      // Write back to file
-      await fs.writeFile(DATA_FILE, JSON.stringify(contacts, null, 2));
+      // Write back to blob
+      await store.setJSON(BLOB_KEY, contacts);
 
       return {
         statusCode: 200,

@@ -1,20 +1,26 @@
-import fs from 'fs/promises';
-import path from 'path';
+import { getStore } from '@netlify/blobs';
 
-const DATA_FILE = path.join('/tmp', 'contacts.json');
+const STORE_NAME = 'contacts';
+const BLOB_KEY = 'contacts.json';
 
-// Initialize contacts file if it doesn't exist
-async function initializeDataFile() {
+// Initialize contacts blob if it doesn't exist
+async function initializeContactsBlob(store) {
   try {
-    await fs.access(DATA_FILE);
+    const existing = await store.get(BLOB_KEY);
+    if (!existing) {
+      await store.setJSON(BLOB_KEY, []);
+    }
   } catch (error) {
-    await fs.writeFile(DATA_FILE, JSON.stringify([], null, 2));
+    await store.setJSON(BLOB_KEY, []);
   }
 }
 
 export async function handler(event, context) {
-  // Initialize data file on first invocation
-  await initializeDataFile();
+  // Get the blob store
+  const store = getStore(STORE_NAME);
+  
+  // Initialize contacts blob on first invocation
+  await initializeContactsBlob(store);
   
   const { httpMethod, path: requestPath } = event;
 
@@ -33,14 +39,14 @@ export async function handler(event, context) {
 
   if (httpMethod === 'GET') {
     try {
-      const data = await fs.readFile(DATA_FILE, 'utf8');
+      const data = await store.getJSON(BLOB_KEY);
       return {
         statusCode: 200,
         headers: {
           'Content-Type': 'application/json',
           'Access-Control-Allow-Origin': '*'
         },
-        body: data
+        body: JSON.stringify(data || [])
       };
     } catch (error) {
       return {
@@ -60,14 +66,13 @@ export async function handler(event, context) {
       try {
         let deletedCount = 0;
         try {
-          const data = await fs.readFile(DATA_FILE, 'utf8');
-          const contacts = JSON.parse(data);
-          deletedCount = contacts.length;
+          const contacts = await store.getJSON(BLOB_KEY);
+          deletedCount = contacts ? contacts.length : 0;
         } catch (error) {
           deletedCount = 0;
         }
 
-        await fs.writeFile(DATA_FILE, JSON.stringify([], null, 2));
+        await store.setJSON(BLOB_KEY, []);
 
         return {
           statusCode: 200,
@@ -102,8 +107,7 @@ export async function handler(event, context) {
         
         let contacts = [];
         try {
-          const data = await fs.readFile(DATA_FILE, 'utf8');
-          contacts = JSON.parse(data);
+          contacts = await store.getJSON(BLOB_KEY);
         } catch (error) {
           return {
             statusCode: 404,
@@ -131,7 +135,7 @@ export async function handler(event, context) {
           };
         }
 
-        await fs.writeFile(DATA_FILE, JSON.stringify(contacts, null, 2));
+        await store.setJSON(BLOB_KEY, contacts);
 
         return {
           statusCode: 200,
@@ -171,8 +175,7 @@ export async function handler(event, context) {
       
       let contacts = [];
       try {
-        const data = await fs.readFile(DATA_FILE, 'utf8');
-        contacts = JSON.parse(data);
+        contacts = await store.getJSON(BLOB_KEY);
       } catch (error) {
         return {
           statusCode: 404,
@@ -202,7 +205,7 @@ export async function handler(event, context) {
         };
       }
 
-      await fs.writeFile(DATA_FILE, JSON.stringify(contacts, null, 2));
+      await store.setJSON(BLOB_KEY, contacts);
 
       return {
         statusCode: 200,

@@ -16,6 +16,7 @@
     "netlify:build": "npm run build"
   },
   "dependencies": {
+    "@netlify/blobs": "^8.2.0",
     "@tailwindcss/vite": "^4.2.2",
     "axios": "^1.14.0",
     "concurrently": "^9.2.1",
