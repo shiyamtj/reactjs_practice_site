@@ -5,7 +5,7 @@ const BLOB_KEY = 'contacts.json';
 
 // Get site-scoped store - persists across deploys
 function getContactsStore() {
-  return getStore({ name: STORE_NAME });
+  return getStore({ name: STORE_NAME, consistency: 'strong' });
 }
 
 // Initialize contacts blob if it doesn't exist
@@ -13,14 +13,16 @@ async function initializeContactsBlob(store) {
   try {
     const existing = await store.get(BLOB_KEY);
     if (!existing) {
+      console.log("Non existing blob found, creating new one");
       await store.setJSON(BLOB_KEY, []);
     }
   } catch (error) {
+    console.log("Error initializing blob:", error);
     await store.setJSON(BLOB_KEY, []);
   }
 }
 
-export default async (request, context) => {
+export default async (request) => {
   // Get the blob store
   const store = getContactsStore();
   
@@ -53,8 +55,11 @@ export default async (request, context) => {
       // Read existing contacts from blob
       let contacts = [];
       try {
-        contacts = await store.getJSON(BLOB_KEY);
+        const blob = await store.get(BLOB_KEY);
+        contacts = JSON.parse(blob);
+        console.log("Existing contacts:", JSON.stringify(contacts, null, 2));
       } catch (error) {
+        console.log("Error reading contacts:", error);
         contacts = [];
       }
 
