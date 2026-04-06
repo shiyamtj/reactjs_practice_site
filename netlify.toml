@@ -12,7 +12,7 @@
 
 [[redirects]]
   from = "/api/contact/*"
-  to = "/.netlify/functions/contact:splat"
+  to = "/.netlify/functions/contact"
   status = 200
 
 [[redirects]]
@@ -21,8 +21,8 @@
   status = 200
 
 [[redirects]]
-  from = "/api/contacts/*"
-  to = "/.netlify/functions/contacts:splat"
+  from = "/api/contacts/all"
+  to = "/.netlify/functions/contacts"
   status = 200
 
 [[redirects]]
