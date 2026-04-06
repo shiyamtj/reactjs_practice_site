@@ -29,3 +29,5 @@ storybook-static
 # playwright test results
 playwright-report/
 test-results/
+# Local Netlify folder
+.netlify

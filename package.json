@@ -16,7 +16,9 @@
     "test:headed": "playwright test --headed",
     "test:ui": "playwright test --ui",
     "test:debug": "playwright test --debug",
-    "test:install": "playwright install"
+    "test:install": "playwright install",
+    "netlify:dev": "netlify dev",
+    "netlify:build": "npm run build"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.2.2",
@@ -51,6 +53,7 @@
     "eslint-plugin-react-refresh": "^0.5.2",
     "eslint-plugin-storybook": "^10.3.4",
     "globals": "^17.4.0",
+    "netlify-cli": "^24.9.0",
     "playwright": "^1.59.1",
     "postcss": "^8.5.8",
     "prop-types": "^15.8.1",

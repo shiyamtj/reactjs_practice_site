@@ -1,0 +1,26 @@
+[build]
+  publish = "dist"
+  functions = "netlify/functions"
+
+[build.environment]
+  NODE_VERSION = "18"
+
+[[redirects]]
+  from = "/api/contact"
+  to = "/.netlify/functions/contact"
+  status = 200
+
+[[redirects]]
+  from = "/api/contacts/*"
+  to = "/.netlify/functions/contacts:splat"
+  status = 200
+
+[[redirects]]
+  from = "/api/test"
+  to = "/.netlify/functions/test"
+  status = 200
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 404
