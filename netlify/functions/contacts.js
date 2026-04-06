@@ -18,6 +18,19 @@ export async function handler(event, context) {
   
   const { httpMethod, path: requestPath } = event;
 
+  // Handle CORS preflight
+  if (httpMethod === 'OPTIONS') {
+    return {
+      statusCode: 200,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, DELETE, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type'
+      },
+      body: ''
+    };
+  }
+
   if (httpMethod === 'GET') {
     try {
       const data = await fs.readFile(DATA_FILE, 'utf8');
