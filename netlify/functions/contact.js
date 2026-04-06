@@ -3,6 +3,15 @@ import { getStore } from '@netlify/blobs';
 const STORE_NAME = 'contacts';
 const BLOB_KEY = 'contacts.json';
 
+// Get store with environment credentials
+function getContactsStore() {
+  return getStore({
+    name: STORE_NAME,
+    siteID: process.env.NETLIFY_SITE_ID,
+    token: process.env.NETLIFY_BLOBS_TOKEN
+  });
+}
+
 // Initialize contacts blob if it doesn't exist
 async function initializeContactsBlob(store) {
   try {
@@ -16,8 +25,8 @@ async function initializeContactsBlob(store) {
 }
 
 export async function handler(event, context) {
-  // Get the blob store
-  const store = getStore(STORE_NAME);
+  // Get the blob store with credentials
+  const store = getContactsStore();
   
   // Initialize contacts blob on first invocation
   await initializeContactsBlob(store);
