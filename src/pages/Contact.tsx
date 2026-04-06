@@ -3,7 +3,7 @@ import PageLayout from '../components/PageLayout';
 import MultiStepContactForm from '../components/MultiStepContactForm';
 import ContactList from '../components/ContactList';
 
-const Contact = () => {
+const Contact: React.FC = () => {
   return (
     <PageLayout 
       title="Contact Us"

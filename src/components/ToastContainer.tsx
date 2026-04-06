@@ -1,10 +1,17 @@
 import React from 'react';
 import { useToast } from '../contexts/ToastContext';
 
-const ToastContainer = () => {
+interface ToastItem {
+  id: string;
+  message: string;
+  type: 'success' | 'error' | 'warning' | 'info';
+  isVisible: boolean;
+}
+
+const ToastContainer: React.FC = () => {
   const { toasts, hideToast } = useToast();
 
-  const getToastClasses = (type) => {
+  const getToastClasses = (type: string): string => {
     const baseClasses = 'flex items-center gap-3 p-4 rounded-xl shadow-lg min-w-[320px] max-w-[400px] text-sm font-medium border backdrop-blur-sm transition-all duration-300 cursor-pointer';
     
     const typeClasses = {
@@ -14,10 +21,10 @@ const ToastContainer = () => {
       info: 'bg-gradient-to-r from-blue-500 to-blue-600 text-white border-blue-400/20',
     };
 
-    return `${baseClasses} ${typeClasses[type]}`;
+    return `${baseClasses} ${typeClasses[type as keyof typeof typeClasses]}`;
   };
 
-  const getIcon = (type) => {
+  const getIcon = (type: string): React.ReactElement => {
     const iconClasses = 'w-5 h-5 flex-shrink-0';
 
     switch (type) {
@@ -54,7 +61,7 @@ const ToastContainer = () => {
 
   return (
     <div className="fixed top-5 right-5 z-[9999] flex flex-col gap-3 pointer-events-none">
-      {toasts.map((toast, index) => (
+      {toasts.map((toast: ToastItem, index: number) => (
         <div
           key={toast.id}
           className={`

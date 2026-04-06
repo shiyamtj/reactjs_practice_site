@@ -1,22 +1,28 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
-import Header from './components/Header'
-import Footer from './components/Footer'
-import Home from './pages/Home'
-import Contact from './pages/Contact'
-import ToastExamples from './pages/examples/ToastExamples'
-import AlertExamples from './pages/examples/AlertExamples'
-import { ToastProvider } from './contexts/ToastContext'
-import { ContactProvider } from './contexts/ContactContext'
-import { ThemeProvider } from './contexts/ThemeContext'
-import { AlertProvider } from './contexts/AlertContext'
-import ToastContainer from './components/ToastContainer'
-import AlertContainer from './components/AlertContainer'
+import Header from './components/Header';
+import Footer from './components/Footer';
+import Home from './pages/Home';
+import Contact from './pages/Contact';
+import ToastExamples from './pages/examples/ToastExamples';
+import AlertExamples from './pages/examples/AlertExamples';
+import { ToastProvider } from './contexts/ToastContext';
+import { ContactProvider } from './contexts/ContactContext';
+import { ThemeProvider } from './contexts/ThemeContext';
+import { AlertProvider } from './contexts/AlertContext';
+import ToastContainer from './components/ToastContainer';
+import AlertContainer from './components/AlertContainer';
 
-function AppContent() {
+interface MenuItem {
+  label: string;
+  href: string;
+  submenu?: MenuItem[];
+}
+
+function AppContent(): React.ReactElement {
   const location = useLocation();
   
-  const menuItems = [
+  const menuItems: MenuItem[] = [
     {
       label: 'Home',
       href: '/'
@@ -55,7 +61,7 @@ function AppContent() {
   );
 }
 
-function App() {
+function App(): React.ReactElement {
   return (
     <ThemeProvider>
       <ToastProvider>
@@ -71,4 +77,4 @@ function App() {
   );
 }
 
-export default App
+export default App;

@@ -1,7 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Footer = ({ copyright = '2024', company = 'Your Company' }) => {
+interface FooterProps {
+  copyright?: string;
+  company?: string;
+}
+
+const Footer: React.FC<FooterProps> = ({ copyright = '2024', company = 'Your Company' }) => {
   return (
     <footer className="bg-gray-900 text-white mt-auto">
       <div className="container-custom py-16">
@@ -110,11 +115,6 @@ const Footer = ({ copyright = '2024', company = 'Your Company' }) => {
       </div>
     </footer>
   );
-};
-
-Footer.propTypes = {
-  copyright: PropTypes.string,
-  company: PropTypes.string
 };
 
 export default Footer;

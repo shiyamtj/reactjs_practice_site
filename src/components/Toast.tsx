@@ -1,12 +1,19 @@
 import React, { useEffect } from 'react';
 
-const Toast = ({ message, type = 'info', onClose, duration = 3000 }) => {
+interface ToastProps {
+  message: string;
+  type?: 'info' | 'success' | 'warning' | 'error';
+  onClose: () => void;
+  duration?: number;
+}
+
+const Toast: React.FC<ToastProps> = ({ message, type = 'info', onClose, duration = 3000 }) => {
   useEffect(() => {
     const timer = setTimeout(onClose, duration);
     return () => clearTimeout(timer);
   }, [onClose, duration]);
 
-  const getToastStyles = () => {
+  const getToastStyles = (): string => {
     const baseStyles = 'fixed top-20 right-4 z-50 animate-pulse px-6 py-4 rounded-xl shadow-lg flex items-center space-x-3 min-w-[300px]';
     
     switch (type) {
@@ -22,7 +29,7 @@ const Toast = ({ message, type = 'info', onClose, duration = 3000 }) => {
     }
   };
 
-  const getIcon = () => {
+  const getIcon = (): React.ReactElement => {
     switch (type) {
       case 'success':
         return (

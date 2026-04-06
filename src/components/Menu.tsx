@@ -1,27 +1,71 @@
 import React, { useState, useRef, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import { Link, useLocation } from 'react-router-dom';
 
-const Menu = ({ items = [], className = '' }) => {
-  const location = useLocation();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [openSubmenus, setOpenSubmenus] = useState(new Set());
-  const timeoutRef = useRef(null);
+interface MenuItem {
+  label: string;
+  href?: string;
+  submenu?: MenuItem[];
+}
 
-  const handleSubmenuEnter = (index) => {
+interface MenuProps {
+  items?: MenuItem[];
+  className?: string;
+}
+
+const Menu: React.FC<MenuProps> = ({ items = [], className = '' }) => {
+  const location = useLocation();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
+  const [openSubmenus, setOpenSubmenus] = useState<Set<number>>(new Set());
+  const timeoutRef = useRef<number | null>(null);
+
+  const handleKeyDown = (event: React.KeyboardEvent, index: number, hasSubmenu: boolean): void => {
+    switch (event.key) {
+      case 'Enter':
+      case ' ':
+        if (hasSubmenu) {
+          event.preventDefault();
+          toggleSubmenu(index);
+        }
+        break;
+      case 'Escape':
+        if (openSubmenus.has(index)) {
+          event.preventDefault();
+          setOpenSubmenus(prev => {
+            const newSet = new Set(prev);
+            newSet.delete(index);
+            return newSet;
+          });
+        }
+        break;
+      case 'ArrowDown':
+        event.preventDefault();
+        // Focus next menu item
+        const nextElement = event.currentTarget.parentElement?.nextElementSibling?.querySelector('a');
+        if (nextElement) (nextElement as HTMLElement).focus();
+        break;
+      case 'ArrowUp':
+        event.preventDefault();
+        // Focus previous menu item
+        const prevElement = event.currentTarget.parentElement?.previousElementSibling?.querySelector('a');
+        if (prevElement) (prevElement as HTMLElement).focus();
+        break;
+    }
+  };
+
+  const handleSubmenuEnter = (index: number): void => {
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
     }
     setOpenSubmenus(prev => new Set([...prev, index]));
   };
 
-  const handleSubmenuLeave = () => {
-    timeoutRef.current = setTimeout(() => {
+  const handleSubmenuLeave = (): void => {
+    timeoutRef.current = window.setTimeout(() => {
       setOpenSubmenus(new Set());
     }, 150);
   };
 
-  const toggleSubmenu = (index) => {
+  const toggleSubmenu = (index: number): void => {
     setOpenSubmenus(prev => {
       const newSet = new Set(prev);
       if (newSet.has(index)) {
@@ -33,7 +77,7 @@ const Menu = ({ items = [], className = '' }) => {
     });
   };
 
-  const toggleMobileMenu = () => {
+  const toggleMobileMenu = (): void => {
     setMobileMenuOpen(!mobileMenuOpen);
     setOpenSubmenus(new Set());
   };
@@ -46,9 +90,11 @@ const Menu = ({ items = [], className = '' }) => {
     };
   }, []);
 
-  const renderMenuItem = (item, index, isSubmenu = false) => {
+  const renderMenuItem = (item: MenuItem, index: number, isSubmenu: boolean = false): React.ReactElement => {
     const hasSubmenu = item.submenu && item.submenu.length > 0;
     const isSubmenuOpen = openSubmenus.has(index);
+    const submenuId = `submenu-${index}`;
+    const buttonId = `menu-button-${index}`;
 
     return (
       <li
@@ -58,7 +104,12 @@ const Menu = ({ items = [], className = '' }) => {
         onMouseLeave={!isSubmenu && hasSubmenu ? handleSubmenuLeave : undefined}
       >
         <Link
+          id={buttonId}
           to={item.href || '#'}
+          aria-haspopup={hasSubmenu ? 'menu' : undefined}
+          aria-expanded={hasSubmenu ? isSubmenuOpen : undefined}
+          aria-controls={hasSubmenu ? submenuId : undefined}
+          onKeyDown={(e) => hasSubmenu && handleKeyDown(e, index, true)}
           onClick={(e) => {
             if (hasSubmenu) {
               e.preventDefault();
@@ -81,6 +132,7 @@ const Menu = ({ items = [], className = '' }) => {
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
+              aria-hidden="true"
             >
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
             </svg>
@@ -89,6 +141,9 @@ const Menu = ({ items = [], className = '' }) => {
 
         {hasSubmenu && (
           <ul
+            id={submenuId}
+            role="menu"
+            aria-labelledby={buttonId}
             className={`
               ${isSubmenu 
                 ? `mt-1 ml-4 space-y-1 overflow-hidden transition-all duration-200 ${isSubmenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`
@@ -96,10 +151,11 @@ const Menu = ({ items = [], className = '' }) => {
               }
             `}
           >
-            {item.submenu.map((subItem, subIndex) => (
-              <li key={`${index}-${subIndex}`}>
+            {(item.submenu || []).map((subItem, subIndex) => (
+              <li key={`${index}-${subIndex}`} role="none">
                 <Link
                   to={subItem.href || '#'}
+                  role="menuitem"
                   className={`
                     block px-4 py-2 transition-colors duration-200
                     ${isSubmenu 
@@ -120,18 +176,21 @@ const Menu = ({ items = [], className = '' }) => {
   };
 
   return (
-    <nav className={`${className}`}>
+    <nav className={`${className}`} role="navigation" aria-label="Main navigation">
       {/* Mobile menu button */}
       <button
         onClick={toggleMobileMenu}
         className="lg:hidden p-2 text-white hover:bg-white/10 rounded-xl transition-colors duration-200"
-        aria-label="Toggle menu"
+        aria-label="Toggle navigation menu"
+        aria-expanded={mobileMenuOpen}
+        aria-controls="mobile-menu"
       >
         <svg
           className="w-6 h-6"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
+          aria-hidden="true"
         >
           {mobileMenuOpen ? (
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -142,36 +201,41 @@ const Menu = ({ items = [], className = '' }) => {
       </button>
 
       {/* Desktop menu */}
-      <ul className="hidden lg:flex items-center space-x-2">
+      <ul className="hidden lg:flex items-center space-x-2" role="menubar">
         {items.map((item, index) => renderMenuItem(item, index))}
       </ul>
 
       {/* Mobile menu */}
       <div
+        id="mobile-menu"
         className={`
           lg:hidden fixed top-16 right-0 w-80 h-[calc(100vh-4rem)] bg-gradient-to-b from-indigo-600 via-purple-600 to-purple-700 dark:from-slate-800 dark:via-slate-800 dark:to-slate-900 shadow-2xl transform transition-transform duration-300 ease-in-out z-[60] rounded-l-2xl
           ${mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}
         `}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Mobile navigation menu"
       >
         <div className="p-4">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-semibold text-white">Menu</h2>
+            <h2 className="text-xl font-semibold text-white">Navigation Menu</h2>
             <button
               onClick={toggleMobileMenu}
               className="p-2 text-white hover:bg-white/10 rounded-xl transition-colors duration-200"
-              aria-label="Close menu"
+              aria-label="Close navigation menu"
             >
               <svg
                 className="w-6 h-6"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
+                aria-hidden="true"
               >
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
           </div>
-          <ul className="space-y-2">
+          <ul className="space-y-2" role="menu">
             {items.map((item, index) => renderMenuItem(item, index, true))}
           </ul>
         </div>
@@ -182,26 +246,11 @@ const Menu = ({ items = [], className = '' }) => {
         <div
           className="lg:hidden fixed inset-0 bg-black/50 z-[50] pt-16"
           onClick={toggleMobileMenu}
+          aria-hidden="true"
         />
       )}
     </nav>
   );
-};
-
-Menu.propTypes = {
-  items: PropTypes.arrayOf(
-    PropTypes.shape({
-      label: PropTypes.string.isRequired,
-      href: PropTypes.string,
-      submenu: PropTypes.arrayOf(
-        PropTypes.shape({
-          label: PropTypes.string.isRequired,
-          href: PropTypes.string,
-        })
-      ),
-    })
-  ),
-  className: PropTypes.string,
 };
 
 export default Menu;

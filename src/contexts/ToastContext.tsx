@@ -1,8 +1,23 @@
 import React, { createContext, useContext, useState, useCallback } from 'react';
 
-const ToastContext = createContext();
+interface Toast {
+  id: string;
+  message: string;
+  type: 'info' | 'success' | 'warning' | 'error';
+  isVisible: boolean;
+  createdAt: number;
+}
 
-export const useToast = () => {
+interface ToastContextType {
+  toasts: Toast[];
+  showToast: (message: string, type?: 'info' | 'success' | 'warning' | 'error', duration?: number) => string;
+  hideToast: (id: string) => void;
+  clearToasts: () => void;
+}
+
+const ToastContext = createContext<ToastContextType | undefined>(undefined);
+
+export const useToast = (): ToastContextType => {
   const context = useContext(ToastContext);
   if (!context) {
     throw new Error('useToast must be used within a ToastProvider');
@@ -10,14 +25,22 @@ export const useToast = () => {
   return context;
 };
 
-export const ToastProvider = ({ children }) => {
-  const [toasts, setToasts] = useState([]);
+interface ToastProviderProps {
+  children: React.ReactNode;
+}
 
-  const generateId = () => Math.random().toString(36).substr(2, 9);
+export const ToastProvider: React.FC<ToastProviderProps> = ({ children }) => {
+  const [toasts, setToasts] = useState<Toast[]>([]);
 
-  const showToast = useCallback((message, type = 'info', duration = 3000) => {
+  const generateId = (): string => Math.random().toString(36).substr(2, 9);
+
+  const showToast = useCallback((
+    message: string, 
+    type: 'info' | 'success' | 'warning' | 'error' = 'info', 
+    duration: number = 3000
+  ): string => {
     const id = generateId();
-    const newToast = {
+    const newToast: Toast = {
       id,
       message,
       type,
@@ -37,7 +60,7 @@ export const ToastProvider = ({ children }) => {
     return id;
   }, []);
 
-  const hideToast = useCallback((id) => {
+  const hideToast = useCallback((id: string): void => {
     setToasts(prev => 
       prev.map(toast => 
         toast.id === id ? { ...toast, isVisible: false } : toast
@@ -50,14 +73,16 @@ export const ToastProvider = ({ children }) => {
     }, 300);
   }, []);
 
-  const clearToasts = useCallback(() => {
+  const clearToasts = useCallback((): void => {
     setToasts(prev => prev.map(toast => ({ ...toast, isVisible: false })));
+    
+    // Remove all after animation
     setTimeout(() => {
       setToasts([]);
     }, 300);
   }, []);
 
-  const value = {
+  const value: ToastContextType = {
     toasts,
     showToast,
     hideToast,
@@ -70,5 +95,3 @@ export const ToastProvider = ({ children }) => {
     </ToastContext.Provider>
   );
 };
-
-export default ToastContext;

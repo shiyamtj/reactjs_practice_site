@@ -2,7 +2,7 @@ import React from 'react';
 import { useAlert } from '../contexts/AlertContext';
 import Alert from './Alert';
 
-const AlertContainer = () => {
+const AlertContainer: React.FC = () => {
   const { alerts, hideAlert } = useAlert();
 
   if (alerts.length === 0) {
@@ -11,7 +11,7 @@ const AlertContainer = () => {
 
   return (
     <div className="fixed top-4 right-4 z-50 space-y-3 max-w-md">
-      {alerts.map((alert) => (
+      {alerts.map((alert: any) => (
         <div
           key={alert.id}
           className={`transition-all duration-300 transform ${

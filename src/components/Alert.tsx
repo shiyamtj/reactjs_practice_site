@@ -1,6 +1,16 @@
 import React from 'react';
 
-const Alert = ({ 
+interface AlertProps {
+  type?: 'info' | 'success' | 'warning' | 'error';
+  title?: string;
+  message?: string;
+  dismissible?: boolean;
+  onDismiss?: () => void;
+  className?: string;
+  children?: React.ReactNode;
+}
+
+const Alert: React.FC<AlertProps> = ({ 
   type = 'info', 
   title, 
   message, 
@@ -9,7 +19,7 @@ const Alert = ({
   className = '',
   children 
 }) => {
-  const getAlertStyles = () => {
+  const getAlertStyles = (): string => {
     const baseStyles = 'p-4 rounded-lg border flex items-start space-x-3';
     
     switch (type) {
@@ -25,7 +35,7 @@ const Alert = ({
     }
   };
 
-  const getIcon = () => {
+  const getIcon = (): React.ReactElement => {
     const iconClass = 'w-5 h-5 flex-shrink-0 mt-0.5';
     
     switch (type) {

@@ -3,14 +3,50 @@ import { useContacts } from '../contexts/ContactContext';
 import { useToast } from '../contexts/ToastContext';
 import ConfirmModal from './ConfirmModal';
 
-const ContactList = () => {
+interface Contact {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  street: string;
+  city: string;
+  state: string;
+  zipCode: string;
+  country: string;
+  subject: string;
+  message: string;
+  urgency: 'high' | 'medium' | 'low' | 'normal';
+  preferredContact: string;
+  timestamp: number;
+}
+
+interface ModalConfig {
+  isOpen: boolean;
+  type: string;
+  title: string;
+  message: string;
+  confirmText: string;
+  modalType: 'danger' | 'warning';
+  contactId: string | null;
+}
+
+const ContactList: React.FC = () => {
   const { contacts, isLoading, deleteContact, deleteMultipleContacts, deleteAllContacts } = useContacts();
   const { showToast } = useToast();
-  const [selectedContacts, setSelectedContacts] = useState(new Set());
-  const [isDeleting, setIsDeleting] = useState(false);
-  const [modalConfig, setModalConfig] = useState({ isOpen: false, type: 'deleteSelected', contactId: null });
+  const [selectedContacts, setSelectedContacts] = useState<Set<string>>(new Set());
+  const [isDeleting, setIsDeleting] = useState<boolean>(false);
+  const [modalConfig, setModalConfig] = useState<ModalConfig>({ 
+    isOpen: false, 
+    type: 'deleteSelected', 
+    title: '',
+    message: '',
+    confirmText: '',
+    modalType: 'danger',
+    contactId: null 
+  });
 
-  const toggleContactSelection = (contactId) => {
+  const toggleContactSelection = (contactId: string): void => {
     const newSelection = new Set(selectedContacts);
     if (newSelection.has(contactId)) {
       newSelection.delete(contactId);
@@ -20,15 +56,22 @@ const ContactList = () => {
     setSelectedContacts(newSelection);
   };
 
-  const toggleSelectAll = () => {
+  const toggleSelectAll = (): void => {
     if (selectedContacts.size === contacts.length && contacts.length > 0) {
       setSelectedContacts(new Set());
     } else {
-      setSelectedContacts(new Set(contacts.map(c => c.id)));
+      setSelectedContacts(new Set(contacts.map((c: Contact) => c.id)));
     }
   };
 
-  const openModal = (type, title, message, confirmText, modalType = 'danger', contactId = null) => {
+  const openModal = (
+    type: string, 
+    title: string, 
+    message: string, 
+    confirmText: string, 
+    modalType: 'danger' | 'warning' = 'danger', 
+    contactId: string | null = null
+  ): void => {
     setModalConfig({
       isOpen: true,
       type,
@@ -40,11 +83,11 @@ const ContactList = () => {
     });
   };
 
-  const closeModal = () => {
-    setModalConfig({ isOpen: false, type: 'deleteSelected', contactId: null });
+  const closeModal = (): void => {
+    setModalConfig({ isOpen: false, type: 'deleteSelected', title: '', message: '', confirmText: '', modalType: 'danger', contactId: null });
   };
 
-  const confirmDeleteSelected = async () => {
+  const confirmDeleteSelected = async (): Promise<void> => {
     setIsDeleting(true);
     try {
       await deleteMultipleContacts(Array.from(selectedContacts));
@@ -58,7 +101,7 @@ const ContactList = () => {
     }
   };
 
-  const confirmDeleteAll = async () => {
+  const confirmDeleteAll = async (): Promise<void> => {
     setIsDeleting(true);
     try {
       await deleteAllContacts();
@@ -72,10 +115,10 @@ const ContactList = () => {
     }
   };
 
-  const confirmDeleteContact = async () => {
+  const confirmDeleteContact = async (): Promise<void> => {
     setIsDeleting(true);
     try {
-      await deleteContact(modalConfig.contactId);
+      await deleteContact(modalConfig.contactId!);
       showToast('Contact deleted successfully', 'success');
       closeModal();
     } catch (error) {
@@ -85,19 +128,19 @@ const ContactList = () => {
     }
   };
 
-  const handleDeleteContact = (contactId) => {
-    const contact = contacts.find(c => c.id === contactId);
+  const handleDeleteContact = (contactId: string): void => {
+    const contact = contacts.find((c: Contact) => c.id === contactId);
     openModal(
       'deleteSingle',
       'Delete Contact',
-      `Are you sure you want to delete ${contact.firstName} ${contact.lastName}? This action cannot be undone.`,
+      `Are you sure you want to delete ${contact?.firstName} ${contact?.lastName}? This action cannot be undone.`,
       'Delete Contact',
       'danger',
       contactId
     );
   };
 
-  const deleteSelectedContacts = () => {
+  const deleteSelectedContacts = (): void => {
     openModal(
       'deleteSelected',
       'Delete Selected Contacts',
@@ -106,7 +149,7 @@ const ContactList = () => {
     );
   };
 
-  const handleDeleteAllContacts = () => {
+  const handleDeleteAllContacts = (): void => {
     openModal(
       'deleteAll',
       'Delete All Contacts',
@@ -115,7 +158,7 @@ const ContactList = () => {
     );
   };
 
-  const formatDate = (timestamp) => {
+  const formatDate = (timestamp: number): string => {
     return new Date(timestamp).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'short',
@@ -125,7 +168,7 @@ const ContactList = () => {
     });
   };
 
-  const getUrgencyColor = (urgency) => {
+  const getUrgencyColor = (urgency: string): string => {
     switch (urgency) {
       case 'high': return 'text-red-700 bg-red-100/80 border-red-200';
       case 'medium': return 'text-yellow-700 bg-yellow-100/80 border-yellow-200';
@@ -194,7 +237,7 @@ const ContactList = () => {
             <div>
               <p className="text-indigo-600 text-xs mb-1 font-semibold">High Priority</p>
               <p className="text-2xl font-bold text-gray-800 dark:text-slate-200">
-                {contacts.filter(c => c.urgency === 'high').length}
+                {contacts.filter((c: Contact) => c.urgency === 'high').length}
               </p>
             </div>
             <div className="w-10 h-10 bg-red-500/20 rounded-lg flex items-center justify-center">
@@ -271,7 +314,7 @@ const ContactList = () => {
         </div>
       ) : (
         <div className="space-y-4">
-          {contacts.map((contact) => (
+          {contacts.map((contact: Contact) => (
             <div
               key={contact.id}
               className={`card p-6 transition-all duration-300 ${

@@ -1,7 +1,14 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
-const PageLayout = ({ 
+interface PageLayoutProps {
+  title: string;
+  description?: string;
+  children: React.ReactNode;
+  maxWidth?: string;
+  showHeader?: boolean;
+}
+
+const PageLayout: React.FC<PageLayoutProps> = ({ 
   title, 
   description, 
   children, 
@@ -29,14 +36,6 @@ const PageLayout = ({
       </div>
     </div>
   );
-};
-
-PageLayout.propTypes = {
-  title: PropTypes.string.isRequired,
-  description: PropTypes.string,
-  children: PropTypes.node.isRequired,
-  maxWidth: PropTypes.string,
-  showHeader: PropTypes.bool
 };
 
 export default PageLayout;
