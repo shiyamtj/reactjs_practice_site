@@ -43,6 +43,14 @@ app.post('/api/contact', async (req, res) => {
       contacts = [];
     }
 
+    // Check if limit is reached (20 records)
+    if (contacts.length >= 20) {
+      return res.status(429).json({ 
+        success: false, 
+        message: 'Contact limit reached. Maximum 20 contacts allowed.' 
+      });
+    }
+
     // Add new contact
     contacts.push(contactData);
 

@@ -12,10 +12,7 @@ const Contact = () => {
     >
         
         <MultiStepContactForm />
-        
-        <div className="mt-16">
-          <ContactList />
-        </div>
+        <ContactList />
     </PageLayout>
   );
 };
