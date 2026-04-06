@@ -13,6 +13,9 @@ async function initializeDataFile() {
 }
 
 export async function handler(event, context) {
+  // Initialize data file on first invocation
+  await initializeDataFile();
+  
   const { httpMethod } = event;
 
   if (httpMethod === 'POST') {

@@ -53,7 +53,7 @@ export const ContactProvider: React.FC<ContactProviderProps> = ({ children }) =>
   const loadContacts = async (): Promise<void> => {
     try {
       setIsLoading(true);
-      const response = await fetch('http://localhost:3001/api/contacts');
+      const response = await fetch('/api/contacts');
       const data = await response.json();
       setContacts(data);
     } catch (error) {
@@ -76,7 +76,7 @@ export const ContactProvider: React.FC<ContactProviderProps> = ({ children }) =>
 
   const deleteContact = async (id: string): Promise<void> => {
     try {
-      const response = await fetch(`http://localhost:3001/api/contacts/${id}`, {
+      const response = await fetch(`/api/contacts/${id}`, {
         method: 'DELETE',
       });
       
@@ -93,7 +93,7 @@ export const ContactProvider: React.FC<ContactProviderProps> = ({ children }) =>
 
   const deleteMultipleContacts = async (ids: string[]): Promise<void> => {
     try {
-      const response = await fetch('http://localhost:3001/api/contacts', {
+      const response = await fetch('/api/contacts', {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -114,7 +114,7 @@ export const ContactProvider: React.FC<ContactProviderProps> = ({ children }) =>
 
   const deleteAllContacts = async (): Promise<void> => {
     try {
-      const response = await fetch('http://localhost:3001/api/contacts/all', {
+      const response = await fetch('/api/contacts/all', {
         method: 'DELETE',
       });
       
