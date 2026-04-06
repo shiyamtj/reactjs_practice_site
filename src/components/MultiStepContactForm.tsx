@@ -393,7 +393,7 @@ const MultiStepContactForm: React.FC = () => {
   const handleSubmit = async (): Promise<void> => {
     setIsSubmitting(true);
     try {
-      const response = await axios.post('http://localhost:3001/api/contact', formData);
+      const response = await axios.post('/api/contact', formData);
       if (response.data.success) {
         // Add contact to global state immediately
         addContact(formData);
